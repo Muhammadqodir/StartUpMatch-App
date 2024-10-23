@@ -1,0 +1,16 @@
+{
+  "app_name": "StartUp Match",
+  "register": "Sign Up",
+  "login": "Sign In",
+  "username": "Username",
+  "password": "Password",
+  "select_role": "Select role",
+  "elevator_pitch": "Elevator pitch",
+  "pitch": "Pitch",
+  "language": "Language",
+  "or": "Or",
+  "select": "Select",
+  "email": "Email",
+  "investor": "Investor",
+  "startuper": "Startuper"
+}
