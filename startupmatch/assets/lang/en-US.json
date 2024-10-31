@@ -12,5 +12,8 @@
   "select": "Select",
   "email": "Email",
   "investor": "Investor",
-  "startuper": "Startuper"
+  "startuper": "Startuper",
+  "profile": "Profile",
+  "create": "Create",
+  "feed": "Feed"
 }

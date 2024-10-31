@@ -39,6 +39,8 @@ dependencies:
   flutter_bloc: ^8.1.6
   easy_localization: ^3.0.7
   shared_preferences: ^2.3.2
+  tiktoklikescroller: ^0.2.8
+  video_player: ^2.9.2
 
 dev_dependencies:
   flutter_test:

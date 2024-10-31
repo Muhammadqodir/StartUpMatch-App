@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:startupmatch/main.dart';
 import 'package:startupmatch/widgets/gradient_button.dart';
 import 'package:startupmatch/widgets/input.dart';
+import 'package:startupmatch/widgets/radio.dart';
 import 'package:startupmatch/widgets/select.dart';
 
 class RegisterWidget extends StatelessWidget {
@@ -34,15 +35,13 @@ class RegisterWidget extends StatelessWidget {
             hint: "email".tr(),
             icon: CupertinoIcons.mail,
           ),
-          CustomSelect(
+          RadioButton(
             items: [
               "investor".tr(),
               "startuper".tr(),
             ],
             hint: "select_role".tr(),
-            title: "select_role".tr(),
-            onChanged: (v) {},
-            icon: CupertinoIcons.smallcircle_fill_circle,
+            onChange: (v) {},
           ),
           CustomTextField(
             controller: password,
