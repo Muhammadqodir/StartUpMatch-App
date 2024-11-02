@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
     await Future.delayed(const Duration(milliseconds: 900));
     Navigator.of(context).pushReplacement(
       CupertinoPageRoute(
-        builder: (context) => const MainPage(),
+        builder: (context) => const AuthPage(),
       ),
     );
   }

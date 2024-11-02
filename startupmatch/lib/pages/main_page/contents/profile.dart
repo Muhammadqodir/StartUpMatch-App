@@ -1,14 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:startupmatch/widgets/card.dart';
+import 'package:startupmatch/pages/auth_page/auth_page.dart';
 import 'package:startupmatch/widgets/icon_button.dart';
 import 'package:startupmatch/widgets/listview.dart';
 import 'package:startupmatch/widgets/my_appbar.dart';
-import 'package:startupmatch/widgets/pitch.dart';
+import 'package:startupmatch/widgets/pitch_preview.dart';
 import 'package:startupmatch/widgets/profile.dart';
-import 'package:startupmatch/widgets/settings_item.dart';
-import 'package:startupmatch/widgets/tap_scale.dart';
 
 class ContentProfile extends StatefulWidget {
   const ContentProfile({super.key});
@@ -53,9 +51,11 @@ class _ContentProfileState extends State<ContentProfile> {
                             fontSize: 18,
                           ),
                     ),
-                    PitchPreview(),
-                    PitchPreview(),
-                    PitchPreview(),
+                    const PitchPreview(
+                      margin: EdgeInsets.only(top: 4),
+                    ),
+                    const PitchPreview(),
+                    const PitchPreview(),
                   ],
                 ),
               ),
@@ -70,7 +70,13 @@ class _ContentProfileState extends State<ContentProfile> {
             title: "Profile".tr(),
             showShadow: showShadow,
             action: MyIconButton(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                  CupertinoPageRoute(
+                    builder: (context) => AuthPage(),
+                  ),
+                );
+              },
               width: 28,
               height: 28,
               child: const Icon(

@@ -31,7 +31,7 @@ class MainAppBar extends StatelessWidget {
                     offset: const Offset(0, 4), // changes position of shadow
                   ),
               ],
-              color: isTransparentAppBar
+              color: !isTransparentAppBar
                   ? Theme.of(context).scaffoldBackgroundColor
                   : Theme.of(context).scaffoldBackgroundColor.withAlpha(0),
             ),

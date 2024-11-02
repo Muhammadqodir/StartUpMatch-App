@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:startupmatch/data/test/test_data.dart';
+import 'package:startupmatch/models/pitch.dart';
 import 'package:startupmatch/widgets/appbar.dart';
+import 'package:startupmatch/widgets/pitch.dart';
 
 class ContentMain extends StatelessWidget {
-  ContentMain({super.key});
-
-  final List<String> videos = [
-    "https://www.exit109.com/~dnn/clips/RW20seconds_1.mp4",
-    "https://www.exit109.com/~dnn/clips/RW20seconds_2.mp4",
-  ];
-
-  final List<String> images = [
-    "assets/demo1.jpeg",
-    "assets/demo2.jpeg",
-  ];
+  const ContentMain({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +13,13 @@ class ContentMain extends StatelessWidget {
       children: [
         PageView(
           scrollDirection: Axis.vertical,
-          children: images
+          children: [
+            TestData.pitchModel,
+            TestData.pitchModel,
+          ]
               .map(
-                (e) => Expanded(
-                  child: Center(
-                    child: Text(e),
-                  ),
+                (e) => Pitch(
+                  model: TestData.pitchModel,
                 ),
               )
               .toList(),

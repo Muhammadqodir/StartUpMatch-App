@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:startupmatch/main.dart';
+import 'package:startupmatch/pages/main_page/main_page.dart';
 import 'package:startupmatch/widgets/gradient_button.dart';
 import 'package:startupmatch/widgets/input.dart';
 import 'package:startupmatch/widgets/radio.dart';
@@ -56,7 +57,13 @@ class RegisterWidget extends StatelessWidget {
               horizontal: 12,
             ),
             text: "register".tr(),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushReplacement(
+                CupertinoPageRoute(
+                  builder: (context) => MainPage(),
+                ),
+              );
+            },
           ),
         ],
       ),

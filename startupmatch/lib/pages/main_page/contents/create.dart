@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:startupmatch/widgets/gradient_button.dart';
 import 'package:startupmatch/widgets/icon_button.dart';
 import 'package:startupmatch/widgets/listview.dart';
 import 'package:startupmatch/widgets/my_appbar.dart';
@@ -27,14 +28,20 @@ class _ContentCreateState extends State<ContentCreate> {
                 showShadow = !v;
               });
             },
-            children: const [
+            children: [
               Padding(
                 padding: EdgeInsets.only(
                   top: 60,
                   bottom: 60,
                 ),
                 child: Column(
-                  children: [Text("ContentCreate")],
+                  children: [
+                    GradientButton(
+                      margin: const EdgeInsets.all(24),
+                      text: "test",
+                      onTap: () {},
+                    ),
+                  ],
                 ),
               ),
             ],
