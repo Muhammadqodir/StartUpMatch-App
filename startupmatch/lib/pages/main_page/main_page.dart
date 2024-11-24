@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:startupmatch/pages/main_page/contents/chat.dart';
 import 'package:startupmatch/pages/main_page/contents/create.dart';
 import 'package:startupmatch/pages/main_page/contents/main.dart';
-import 'package:startupmatch/pages/main_page/contents/profile.dart';
-import 'package:startupmatch/widgets/appbar.dart';
+import 'package:startupmatch/pages/main_page/contents/profile/profile.dart';
 import 'package:startupmatch/widgets/bottom_nav.dart';
 import 'package:startupmatch/widgets/fade_indexed_stack.dart';
 
@@ -27,10 +27,11 @@ class _MainPageState extends State<MainPage> {
         children: [
           FadeIndexedStack(
             index: selectedIndex,
-            children: [
+            children: const [
               ContentMain(),
-              const ContentCreate(),
-              const ContentProfile(),
+              ContentCreate(),
+              ContentChat(),
+              ContentProfile(),
             ],
           ),
           Positioned(
@@ -48,6 +49,11 @@ class _MainPageState extends State<MainPage> {
                   "create".tr(),
                   CupertinoIcons.add,
                   CupertinoIcons.add_circled_solid,
+                ),
+                NavItem(
+                  "chat".tr(),
+                  CupertinoIcons.chat_bubble_2,
+                  CupertinoIcons.chat_bubble_2_fill,
                 ),
                 NavItem(
                   "profile".tr(),

@@ -1,8 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:startupmatch/utils/themes.dart';
-import 'package:startupmatch/widgets/tap_scale.dart';
+import 'package:startupmatch/widgets/buttons/tap_scale.dart';
 
 class RadioButton extends StatefulWidget {
   const RadioButton({

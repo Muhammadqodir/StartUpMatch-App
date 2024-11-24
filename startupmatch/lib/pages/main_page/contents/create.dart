@@ -1,11 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:startupmatch/widgets/gradient_button.dart';
-import 'package:startupmatch/widgets/icon_button.dart';
+import 'package:startupmatch/widgets/buttons/gradient_button.dart';
+import 'package:startupmatch/widgets/buttons/icon_button.dart';
 import 'package:startupmatch/widgets/listview.dart';
-import 'package:startupmatch/widgets/my_appbar.dart';
+import 'package:startupmatch/widgets/app_bar/my_appbar.dart';
 
 class ContentCreate extends StatefulWidget {
   const ContentCreate({super.key});
@@ -54,15 +53,17 @@ class _ContentCreateState extends State<ContentCreate> {
           child: MyAppBar(
             title: "create".tr(),
             showShadow: showShadow,
-            action: MyIconButton(
-              onTap: () {},
-              width: 28,
-              height: 28,
-              child: const Icon(
-                CupertinoIcons.bell,
-                size: 28,
+            action: [
+              MyIconButton(
+                onTap: () {},
+                width: 28,
+                height: 28,
+                child: const Icon(
+                  CupertinoIcons.bell,
+                  size: 28,
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ],

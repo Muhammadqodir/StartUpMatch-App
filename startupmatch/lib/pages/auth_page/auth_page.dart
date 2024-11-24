@@ -1,11 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:startupmatch/main.dart';
 import 'package:startupmatch/pages/auth_page/widgets/login.dart';
 import 'package:startupmatch/pages/auth_page/widgets/register.dart';
 import 'package:startupmatch/widgets/divider.dart';
-import 'package:startupmatch/widgets/icon_button.dart';
+import 'package:startupmatch/widgets/buttons/icon_button.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});

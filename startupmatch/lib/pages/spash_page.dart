@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:startupmatch/pages/auth_page/auth_page.dart';
 import 'package:startupmatch/pages/main_page/main_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -28,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
     await Future.delayed(const Duration(milliseconds: 900));
     Navigator.of(context).pushReplacement(
       CupertinoPageRoute(
-        builder: (context) => const AuthPage(),
+        builder: (context) => MainPage(),
       ),
     );
   }

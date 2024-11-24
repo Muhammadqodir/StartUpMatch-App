@@ -15,5 +15,7 @@
   "startuper": "Startuper",
   "profile": "Profile",
   "create": "Create",
-  "feed": "Feed"
+  "chat": "Chat",
+  "feed": "Feed",
+  "no_messages": "There is no message here"
 }

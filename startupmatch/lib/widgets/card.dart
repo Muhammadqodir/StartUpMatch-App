@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class MyCard extends StatelessWidget {
-  MyCard({
+  const MyCard({
     super.key,
     required this.title,
     required this.child,
@@ -12,11 +12,11 @@ class MyCard extends StatelessWidget {
     this.padding = const EdgeInsets.all(18),
   });
 
-  String title;
-  Widget child;
-  bool soonBadge;
-  EdgeInsets margin;
-  EdgeInsets padding;
+  final String title;
+  final Widget child;
+  final bool soonBadge;
+  final EdgeInsets margin;
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class MyCard extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(24)),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.15),
+              color: Colors.grey.withOpacity(0.30),
               spreadRadius: 1,
               blurRadius: 20,
               offset: const Offset(0, 4),

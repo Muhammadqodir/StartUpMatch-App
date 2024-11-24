@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:startupmatch/utils/themes.dart';
-import 'package:startupmatch/widgets/tap_scale.dart';
+import 'package:startupmatch/widgets/buttons/tap_scale.dart';
 
 class MyBottomNavigation extends StatefulWidget {
-  MyBottomNavigation({
+  const MyBottomNavigation({
     super.key,
     required this.items,
     required this.onTap,
   });
 
-  List<NavItem> items;
-  Function(int) onTap;
+  final List<NavItem> items;
+  final Function(int) onTap;
 
   @override
   State<MyBottomNavigation> createState() => _MyBottomNavigationState();
@@ -24,7 +24,12 @@ class _MyBottomNavigationState extends State<MyBottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
+      padding: const EdgeInsets.only(
+        top: 12,
+        left: 12,
+        right: 12,
+        bottom: 12,
+      ),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(

@@ -2,8 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:startupmatch/widgets/tap_scale.dart';
+import 'package:startupmatch/widgets/buttons/tap_scale.dart';
 
 const double _kItemExtent = 32.0;
 

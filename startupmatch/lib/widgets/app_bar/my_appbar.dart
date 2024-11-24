@@ -1,16 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {
   const MyAppBar({
     super.key,
     required this.title,
-    this.action,
+    this.child,
+    this.action = const [],
     this.showShadow = false,
   });
 
   final String title;
-  final Widget? action;
+  final Widget? child;
+  final List<Widget> action;
   final bool showShadow;
 
   @override
@@ -36,17 +37,25 @@ class MyAppBar extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Row(
-                children: [
-                  const SizedBox(height: 34),
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ],
-              ),
+              child: child != null
+                  ? child!
+                  : Row(
+                      children: [
+                        const SizedBox(height: 34),
+                        Text(
+                          title,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ],
+                    ),
             ),
-            if (action != null) action!
+            if (action.isNotEmpty)
+              ...action.map(
+                (e) => Padding(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: e,
+                ),
+              )
           ],
         ),
       ),

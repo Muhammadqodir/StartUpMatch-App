@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:startupmatch/widgets/icon_button.dart';
+import 'package:startupmatch/widgets/buttons/icon_button.dart';
 
 class CustomTextField extends StatefulWidget {
   final String hint;
@@ -16,7 +16,7 @@ class CustomTextField extends StatefulWidget {
   final EdgeInsets padding;
   final Function(String) onChanged;
   final EdgeInsets margin;
-  final IconData icon;
+  final IconData? icon;
 
   const CustomTextField({
     this.hint = "",
@@ -25,7 +25,7 @@ class CustomTextField extends StatefulWidget {
     this.baseColor = const Color(0xFFF7F8F8),
     this.errorColor = Colors.red,
     this.textAlign = TextAlign.start,
-    required this.icon,
+    this.icon,
     this.inputFormatter = const [],
     this.inputType = TextInputType.text,
     this.padding = const EdgeInsets.all(8),
@@ -61,14 +61,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
         padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
         child: Row(
           children: [
-            const SizedBox(
-              width: 12,
-            ),
-            Icon(
-              widget.icon,
-              color: Colors.black54,
-              size: 22,
-            ),
+            if (widget.icon != null)
+              Column(
+                children: [
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  Icon(
+                    widget.icon,
+                    color: Colors.black54,
+                    size: 22,
+                  ),
+                ],
+              ),
             Expanded(
               child: TextField(
                 obscureText: widget.obscureText && !showPassword,

@@ -1,23 +1,21 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:startupmatch/widgets/tap_scale.dart';
+import 'package:startupmatch/widgets/buttons/tap_scale.dart';
 
 class SettingsItem extends StatefulWidget {
-  SettingsItem(
-      {super.key,
-      required this.icon,
-      required this.title,
-      required this.onTap,
-      this.isSwitch = false});
+  const SettingsItem({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.onTap,
+    this.isSwitch = false,
+  });
 
-  String title;
-  IconData icon;
-  bool isSwitch;
-  Function onTap;
+  final String title;
+  final icon;
+  final bool isSwitch;
+  final Function onTap;
 
   @override
   State<SettingsItem> createState() => _SettingsItemState();

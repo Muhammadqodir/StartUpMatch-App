@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:startupmatch/widgets/tap_scale.dart';
+import 'package:startupmatch/widgets/buttons/tap_scale.dart';
 
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({super.key});

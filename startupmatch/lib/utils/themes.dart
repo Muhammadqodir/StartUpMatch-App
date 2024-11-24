@@ -5,6 +5,13 @@ const primaryColor1 = Color(0xFF0141A2);
 const colorAccent = Color(0xFFE1F2F0);
 const lightGray = Color(0xFFcccccc);
 
+const defaiultShadow = BoxShadow(
+  color: Color.fromARGB(121, 158, 158, 158),
+  spreadRadius: 1,
+  blurRadius: 20,
+  offset: const Offset(0, 4),
+);
+
 BoxShadow shadow = BoxShadow(
   color: Colors.grey.withOpacity(0.2),
   spreadRadius: 0.4,

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:startupmatch/widgets/icon_button.dart';
+import 'package:startupmatch/pages/camera_page/camera_page.dart';
+import 'package:startupmatch/widgets/buttons/icon_button.dart';
 
 class MainAppBar extends StatelessWidget {
   const MainAppBar({
@@ -59,7 +60,13 @@ class MainAppBar extends StatelessWidget {
                     ),
                   ),
                   MyIconButton(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(
+                        CupertinoPageRoute(
+                          builder: (context) => const CameraPage(),
+                        ),
+                      );
+                    },
                     width: 28,
                     height: 28,
                     child: const Icon(
