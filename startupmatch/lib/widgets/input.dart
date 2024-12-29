@@ -11,6 +11,9 @@ class CustomTextField extends StatefulWidget {
   final TextInputType inputType;
   final TextAlign textAlign;
   final bool obscureText;
+  final int minLines;
+  final int maxLines;
+  final bool autoFocus;
   final BorderRadius borderRadius;
   final List<TextInputFormatter> inputFormatter;
   final EdgeInsets padding;
@@ -26,6 +29,9 @@ class CustomTextField extends StatefulWidget {
     this.errorColor = Colors.red,
     this.textAlign = TextAlign.start,
     this.icon,
+    this.minLines = 1,
+    this.maxLines = 1,
+    this.autoFocus = false,
     this.inputFormatter = const [],
     this.inputType = TextInputType.text,
     this.padding = const EdgeInsets.all(8),
@@ -80,6 +86,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 onChanged: widget.onChanged,
                 inputFormatters: widget.inputFormatter,
                 textAlign: widget.textAlign,
+                maxLines: widget.maxLines,
+                minLines: widget.minLines,
+                autofocus: widget.autoFocus,
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium!

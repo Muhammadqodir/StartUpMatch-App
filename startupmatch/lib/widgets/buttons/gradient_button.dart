@@ -11,10 +11,16 @@ class GradientButton extends StatelessWidget {
     this.width = double.infinity,
     this.height = 50,
     this.isLoading = false,
+    this.c1 = primaryColor,
+    this.c2 = primaryColor1,
+    this.textColor = Colors.white,
     this.margin = const EdgeInsets.all(0),
     this.lowerBound = 0.95,
   });
 
+  final Color c1;
+  final Color c2;
+  final Color textColor;
   final String text;
   final Function() onTap;
   final double width;
@@ -46,10 +52,10 @@ class GradientButton extends StatelessWidget {
               offset: const Offset(0, 4),
             ),
           ],
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             colors: [
-              primaryColor,
-              primaryColor1,
+              c1,
+              c2,
             ],
           ),
         ),
@@ -60,7 +66,7 @@ class GradientButton extends StatelessWidget {
             : Text(
                 text,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: Colors.white,
+                      color: textColor,
                       fontFamily: "PoppinsBold",
                     ),
               ),

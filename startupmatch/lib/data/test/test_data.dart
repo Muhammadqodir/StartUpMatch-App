@@ -9,15 +9,26 @@ import 'package:startupmatch/models/post/post.dart';
 import '../../models/user.dart';
 
 class TestData {
+  static User unautorizedUser = User(
+    id: -1,
+    fullName: "Undefined",
+    email: "Undefined",
+    userType: "Undefined",
+    pic: "Undefined",
+    joined: "Undefined",
+    location: "Undefined",
+    token: "Undefined",
+  );
+
   static User testUser = User(
     id: 0,
-    name: "Muhammadqodir Abduvoiotv",
-    username: "@mqodir",
+    fullName: "Muhammadqodir Abduvoiotv",
     email: "m.qodir777@gmail.com",
-    usertype: "startuper",
-    pic: "https://abduvoitov.uz/images/abduvoitov.JPG",
+    userType: "startuper",
+    pic: "uploads/6HFfFMEnKYxbyrVx_user.jpg",
     joined: "2012-02-27 13:27:00",
     location: "Stavropol",
+    token: "Undefined",
   );
 
   static ChatMessage testMessage = ChatMessage(
@@ -60,8 +71,7 @@ class TestData {
     title: "Pitch title",
     description:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    videoUrl:
-        "https://videos.pexels.com/video-files/3209663/3209663-uhd_2560_1440_25fps.mp4",
+    videoUrl: "uploads/WrzxCKGTAc_pitch.mp4",
     owner: testUser,
     likes: [],
     comments: [],
@@ -106,5 +116,28 @@ class TestDataSource implements DataSource {
   @override
   Future<DataState<List<Post>>> fetchFeed() async {
     return DataState.success(data: TestData.pitches);
+  }
+
+  @override
+  Future<DataState<List<Post>>> fetchMyPosts() async {
+    return DataState.success(data: TestData.pitches);
+  }
+
+  @override
+  Future<DataState<User>> login(
+    String email,
+    String password,
+  ) async {
+    return DataState.success(data: TestData.testUser);
+  }
+
+  @override
+  Future<DataState<User>> register(
+    String email,
+    String password,
+    String fullName,
+    String userType,
+  ) async {
+    return DataState.success(data: TestData.testUser);
   }
 }

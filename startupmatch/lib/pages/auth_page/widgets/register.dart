@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:startupmatch/pages/main_page/main_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startupmatch/cubit/auth_cubit.dart';
 import 'package:startupmatch/widgets/buttons/gradient_button.dart';
 import 'package:startupmatch/widgets/input.dart';
 import 'package:startupmatch/widgets/buttons/radio.dart';
@@ -9,7 +10,9 @@ import 'package:startupmatch/widgets/buttons/radio.dart';
 class RegisterWidget extends StatelessWidget {
   RegisterWidget({super.key});
   final TextEditingController username = TextEditingController();
+  final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
+  String role = "startup";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +32,7 @@ class RegisterWidget extends StatelessWidget {
             icon: CupertinoIcons.person,
           ),
           CustomTextField(
-            controller: username,
+            controller: email,
             onChanged: (v) {},
             hint: "email".tr(),
             icon: CupertinoIcons.mail,
@@ -40,7 +43,9 @@ class RegisterWidget extends StatelessWidget {
               "startuper".tr(),
             ],
             hint: "select_role".tr(),
-            onChange: (v) {},
+            onChange: (v) {
+              role = v;
+            },
           ),
           CustomTextField(
             controller: password,
@@ -55,12 +60,14 @@ class RegisterWidget extends StatelessWidget {
               horizontal: 12,
             ),
             text: "register".tr(),
+            isLoading: context.watch<AuthCubit>().state is LoadingAuthState,
             onTap: () {
-              Navigator.of(context).pushReplacement(
-                CupertinoPageRoute(
-                  builder: (context) => const MainPage(),
-                ),
-              );
+              context.read<AuthCubit>().register(
+                    username.text,
+                    password.text,
+                    email.text,
+                    role,
+                  );
             },
           ),
         ],

@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:startupmatch/pages/camera_page/camera_page.dart';
 import 'package:startupmatch/pages/main_page/contents/chat.dart';
-import 'package:startupmatch/pages/main_page/contents/create.dart';
 import 'package:startupmatch/pages/main_page/contents/main.dart';
 import 'package:startupmatch/pages/main_page/contents/profile/profile.dart';
 import 'package:startupmatch/widgets/bottom_nav.dart';
@@ -29,7 +29,7 @@ class _MainPageState extends State<MainPage> {
             index: selectedIndex,
             children: const [
               ContentMain(),
-              ContentCreate(),
+              SizedBox(),
               ContentChat(),
               ContentProfile(),
             ],
@@ -39,6 +39,7 @@ class _MainPageState extends State<MainPage> {
             left: 0,
             right: 0,
             child: MyBottomNavigation(
+              selected: selectedIndex,
               items: [
                 NavItem(
                   "feed".tr(),
@@ -63,7 +64,15 @@ class _MainPageState extends State<MainPage> {
               ],
               onTap: (index) {
                 setState(() {
-                  selectedIndex = index;
+                  if (index != 1) {
+                    selectedIndex = index;
+                  } else {
+                    Navigator.of(context).push(
+                      CupertinoPageRoute(
+                        builder: (context) => const CameraPage(),
+                      ),
+                    );
+                  }
                   if (index != 0) {
                     isTransparentAppBar = true;
                   } else {

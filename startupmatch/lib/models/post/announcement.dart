@@ -13,17 +13,18 @@ class AnnouncementModel extends Post {
   String link;
   String btnTitle;
 
-  AnnouncementModel(
-      {required super.id,
-      required super.owner,
-      required super.likes,
-      required super.comments,
-      required super.date,
-      required this.content,
-      required this.image,
-      required this.link,
-      required this.title,
-      required this.btnTitle});
+  AnnouncementModel({
+    required super.id,
+    required super.owner,
+    required super.likes,
+    required super.comments,
+    required super.date,
+    required this.content,
+    required this.image,
+    required this.link,
+    required this.title,
+    required this.btnTitle,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

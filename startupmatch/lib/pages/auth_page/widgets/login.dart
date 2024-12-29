@@ -1,13 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:startupmatch/pages/main_page/main_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startupmatch/cubit/auth_cubit.dart';
 import 'package:startupmatch/widgets/buttons/gradient_button.dart';
 import 'package:startupmatch/widgets/input.dart';
 
 class LoginWidget extends StatelessWidget {
   LoginWidget({super.key});
-  final TextEditingController username = TextEditingController();
+  final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -22,10 +23,10 @@ class LoginWidget extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           CustomTextField(
-            controller: username,
+            controller: email,
             onChanged: (v) {},
-            hint: "username".tr(),
-            icon: CupertinoIcons.person,
+            hint: "email".tr(),
+            icon: CupertinoIcons.mail,
           ),
           CustomTextField(
             controller: password,
@@ -39,13 +40,10 @@ class LoginWidget extends StatelessWidget {
               vertical: 12,
               horizontal: 12,
             ),
+            isLoading: context.watch<AuthCubit>().state is LoadingAuthState,
             text: "login".tr(),
-            onTap: () {
-              Navigator.of(context).pushReplacement(
-                CupertinoPageRoute(
-                  builder: (context) => MainPage(),
-                ),
-              );
+            onTap: () async {
+              context.read<AuthCubit>().login(email.text, password.text);
             },
           ),
         ],

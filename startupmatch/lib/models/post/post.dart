@@ -39,12 +39,12 @@ class Post {
       id: map['id'] as int,
       owner: User.fromMap(map['owner'] as Map<String, dynamic>),
       likes: List<Like>.from(
-        (map['likes'] as List<int>).map<Like>(
+        (map['likes'] as List<dynamic>).map<Like>(
           (x) => Like.fromMap(x as Map<String, dynamic>),
         ),
       ),
       comments: List<Comment>.from(
-        (map['comments'] as List<int>).map<Comment>(
+        (map['comments'] as List<dynamic>).map<Comment>(
           (x) => Comment.fromMap(x as Map<String, dynamic>),
         ),
       ),

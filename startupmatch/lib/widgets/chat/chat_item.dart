@@ -30,7 +30,8 @@ class ChatItem extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(
-                    chatModel.getCompanion(TestData.testUser).pic,
+                    chatModel.getCompanion(TestData.testUser).getUserPicUrl(),
+                    fit: BoxFit.cover,
                     width: 60,
                     height: 60,
                   ),
@@ -45,7 +46,9 @@ class ChatItem extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              chatModel.getCompanion(TestData.testUser).name,
+                              chatModel
+                                  .getCompanion(TestData.testUser)
+                                  .fullName,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.titleMedium,

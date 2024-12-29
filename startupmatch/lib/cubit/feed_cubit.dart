@@ -12,7 +12,7 @@ class FeedCubit extends Cubit<FeedState> {
 
   Future<void> fetchFeed() async {
     emit(state.copyWith(isLoading: true));
-    DataState<List<Post>> posts = await getIt<DataSource>().fetchFeed();
+    DataState<List<Post>> posts = await (await getIt.getAsync<DataSource>()).fetchFeed();
     if (posts.isSuccess) {
       emit(state.copyWith(posts: posts.data, currentIndex: 0));
     }

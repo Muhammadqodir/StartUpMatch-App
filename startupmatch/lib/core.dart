@@ -1,1 +1,1 @@
-const isTestMode = true;
+const isTestMode = false;

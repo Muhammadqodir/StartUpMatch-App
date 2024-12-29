@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startupmatch/cubit/auth_cubit.dart';
+import 'package:startupmatch/pages/auth_page/auth_page.dart';
 import 'package:startupmatch/pages/main_page/main_page.dart';
+import 'package:startupmatch/utils/dialogs.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -25,11 +29,7 @@ class _SplashPageState extends State<SplashPage> {
       gradientRadius = 2;
     });
     await Future.delayed(const Duration(milliseconds: 900));
-    Navigator.of(context).pushReplacement(
-      CupertinoPageRoute(
-        builder: (context) => MainPage(),
-      ),
-    );
+    context.read<AuthCubit>().checkAuth();
   }
 
   @override
@@ -49,10 +49,29 @@ class _SplashPageState extends State<SplashPage> {
           ),
         ),
         child: SafeArea(
-          child: Center(
-            child: Image.asset(
-              "assets/icon_white.png",
-              width: 170,
+          child: BlocListener<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (state is AuthorizedState) {
+                Navigator.of(context).pushReplacement(
+                  CupertinoPageRoute(
+                    builder: (context) => const MainPage(),
+                  ),
+                );
+              } else if (state is UnAuthorizedState) {
+                Navigator.of(context).pushReplacement(
+                  CupertinoPageRoute(
+                    builder: (context) => const AuthPage(),
+                  ),
+                );
+              } else if (state is ErrorAuthState) {
+                showAlertDialog(context, state.title, state.message);
+              }
+            },
+            child: Center(
+              child: Image.asset(
+                "assets/icon_white.png",
+                width: 170,
+              ),
             ),
           ),
         ),

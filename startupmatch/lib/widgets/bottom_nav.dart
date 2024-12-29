@@ -7,11 +7,13 @@ import 'package:startupmatch/widgets/buttons/tap_scale.dart';
 class MyBottomNavigation extends StatefulWidget {
   const MyBottomNavigation({
     super.key,
+    this.selected = 0,
     required this.items,
     required this.onTap,
   });
 
   final List<NavItem> items;
+  final int selected;
   final Function(int) onTap;
 
   @override
@@ -19,8 +21,6 @@ class MyBottomNavigation extends StatefulWidget {
 }
 
 class _MyBottomNavigationState extends State<MyBottomNavigation> {
-  int selected = 0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,27 +50,26 @@ class _MyBottomNavigationState extends State<MyBottomNavigation> {
                   child: OnTapScaleAndFade(
                     onTap: () {
                       widget.onTap(widget.items.indexOf(e));
-                      setState(() {
-                        selected = widget.items.indexOf(e);
-                      });
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
-                          selected == widget.items.indexOf(e)
+                          widget.selected == widget.items.indexOf(e)
                               ? e.iconSelect
                               : e.icon,
-                          color: selected == widget.items.indexOf(e)
+                          color: widget.selected == widget.items.indexOf(e)
                               ? primaryColor
                               : Theme.of(context).textTheme.bodyMedium!.color,
-                          size: selected == widget.items.indexOf(e) ? 26 : 24,
+                          size: widget.selected == widget.items.indexOf(e)
+                              ? 26
+                              : 24,
                         ),
                         const SizedBox(
                           height: 4,
                         ),
-                        selected == widget.items.indexOf(e)
+                        widget.selected == widget.items.indexOf(e)
                             ? Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(2),

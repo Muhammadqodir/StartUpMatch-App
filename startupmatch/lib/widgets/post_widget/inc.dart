@@ -23,7 +23,8 @@ class UserTitle extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(25),
             child: Image.network(
-              user.pic,
+              user.getUserPicUrl(),
+              fit: BoxFit.cover,
               width: 40,
               height: 40,
             ),
@@ -34,7 +35,7 @@ class UserTitle extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  user.name,
+                  user.fullName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: isList
@@ -53,7 +54,7 @@ class UserTitle extends StatelessWidget {
                           ),
                 ),
                 Text(
-                  user.username,
+                  user.email,
                   style: isList
                       ? Theme.of(context).textTheme.titleSmall
                       : Theme.of(context).textTheme.titleSmall!.copyWith(

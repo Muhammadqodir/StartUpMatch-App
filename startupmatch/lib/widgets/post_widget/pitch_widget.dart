@@ -23,9 +23,10 @@ class _PitchWidgetState extends State<PitchWidget> {
 
   @override
   void initState() {
+    print(widget.pitch.getVideoUrl());
     _controller = VideoPlayerController.networkUrl(
       Uri.parse(
-        widget.pitch.videoUrl,
+        widget.pitch.getVideoUrl(),
       ),
     )..initialize().then((_) {
         if (widget.matchEngine.currentItem!.content == widget.pitch) {

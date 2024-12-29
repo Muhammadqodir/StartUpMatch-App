@@ -1,24 +1,25 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'package:startupmatch/data/remote/remote_data_source.dart';
 
 class User {
   int id;
-  String name;
-  String username;
+  String fullName;
   String email;
-  String usertype;
+  String userType;
   String pic;
   String joined;
   String location;
+  String token;
   User({
     required this.id,
-    required this.name,
-    required this.username,
+    required this.fullName,
     required this.email,
-    required this.usertype,
+    required this.userType,
     required this.pic,
     required this.joined,
     required this.location,
+    required this.token,
   });
 
   bool equal(User user) {
@@ -29,29 +30,36 @@ class User {
     }
   }
 
+  String getUserPicUrl() {
+    if (pic.contains("http")) {
+      return pic;
+    }
+    return serverBaseUrl + pic;
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'name': name,
-      'username': username,
+      'fullName': fullName,
       'email': email,
-      'usertype': usertype,
+      'userType': userType,
       'pic': pic,
       'joined': joined,
       'location': location,
+      'token': token,
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       id: map['id'] as int,
-      name: map['name'] as String,
-      username: map['username'] as String,
+      fullName: map['fullName'] as String,
       email: map['email'] as String,
-      usertype: map['usertype'] as String,
+      userType: map['userType'] as String,
       pic: map['pic'] as String,
       joined: map['joined'] as String,
       location: map['location'] as String,
+      token: map['token'] as String,
     );
   }
 

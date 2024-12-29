@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:startupmatch/cubit/feed_cubit.dart';
-import 'package:startupmatch/cubit/profile_cubit.dart';
+import 'package:startupmatch/cubit/auth_cubit.dart';
 import 'package:startupmatch/di/di.dart';
 import 'package:startupmatch/pages/spash_page.dart';
 import 'package:startupmatch/utils/themes.dart';
@@ -11,6 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await setupDependencies();
+  await getIt.allReady();
   runApp(
     EasyLocalization(
       supportedLocales: const [
@@ -34,8 +35,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<FeedCubit>(
           create: (context) => FeedCubit(),
         ),
-        BlocProvider<ProfileCubit>(
-          create: (context) => ProfileCubit(),
+        BlocProvider<AuthCubit>(
+          create: (context) => AuthCubit(),
         ),
       ],
       child: MaterialApp(

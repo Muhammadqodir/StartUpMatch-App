@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:startupmatch/data/remote/remote_data_source.dart';
 import 'package:startupmatch/models/post/comment.dart';
 import 'package:startupmatch/models/post/like.dart';
 import 'package:startupmatch/models/post/post.dart';
@@ -21,6 +22,13 @@ class PitchModel extends Post {
     required super.comments,
     required super.date,
   });
+
+  String getVideoUrl() {
+    if (videoUrl.contains("http")) {
+      return videoUrl;
+    }
+    return serverBaseUrl + videoUrl;
+  }
 
   @override
   Map<String, dynamic> toMap() {
@@ -45,12 +53,12 @@ class PitchModel extends Post {
       id: map['id'] as int,
       owner: User.fromMap(map['owner'] as Map<String, dynamic>),
       likes: List<Like>.from(
-        (map['likes'] as List<int>).map<Like>(
+        (map['likes'] as List<dynamic>).map<Like>(
           (x) => Like.fromMap(x as Map<String, dynamic>),
         ),
       ),
       comments: List<Comment>.from(
-        (map['comments'] as List<int>).map<Comment>(
+        (map['comments'] as List<dynamic>).map<Comment>(
           (x) => Comment.fromMap(x as Map<String, dynamic>),
         ),
       ),
