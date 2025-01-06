@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:startupmatch/data/data_source.dart';
@@ -29,10 +31,10 @@ class LocalDataSource implements DataSource {
   }
 
   @override
-  Future<DataState<User>> login(
-    String email,
-    String password,
-  ) async {
+  Future<DataState<User>> login({
+    required String email,
+    required String password,
+  }) async {
     return DataState.error(
       title: "No connection",
       message: "Please check your internet connection",
@@ -40,12 +42,32 @@ class LocalDataSource implements DataSource {
   }
 
   @override
-  Future<DataState<User>> register(
-    String email,
-    String password,
-    String fullName,
-    String userType,
-  ) async {
+  Future<DataState<User>> updateProfilePic({
+    required File newPic,
+  }) async {
+    return DataState.error(
+      title: "No connection",
+      message: "Please check your internet connection",
+    );
+  }
+
+  @override
+  Future<DataState<User>> updateProfileData({
+    required Map<String, dynamic> data,
+  }) async {
+    return DataState.error(
+      title: "No connection",
+      message: "Please check your internet connection",
+    );
+  }
+
+  @override
+  Future<DataState<User>> register({
+    required String email,
+    required String password,
+    required String fullName,
+    required String userType,
+  }) async {
     return DataState.error(
       title: "No connection",
       message: "Please check your internet connection",
@@ -76,6 +98,7 @@ class LocalDataSource implements DataSource {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String userJson = preferences.getString("user") ?? "undefined";
     if (userJson != "undefined") {
+      print(userJson);
       return User.fromJson(userJson);
     }
     return null;

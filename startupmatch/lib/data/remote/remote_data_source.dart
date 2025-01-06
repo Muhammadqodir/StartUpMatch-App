@@ -84,7 +84,10 @@ class RemoteDataSource implements DataSource {
   }
 
   @override
-  Future<DataState<User>> login(String email, String password) async {
+  Future<DataState<User>> login({
+    required String email,
+    required String password,
+  }) async {
     try {
       http.Response res = await client.post("login", body: {
         "email": email,
@@ -115,12 +118,114 @@ class RemoteDataSource implements DataSource {
   }
 
   @override
-  Future<DataState<User>> register(
-    String email,
-    String password,
-    String userType,
-    String fullName,
-  ) async {
+  Future<DataState<User>> updateProfileData({
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      http.Response res = await client.post("updateAccount", body: data);
+      print(res.body);
+      if (res.statusCode == 200) {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.success(data: User.fromMap(data["data"]));
+      } else {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.error(
+          message: data["message"],
+          title: "Error",
+        );
+      }
+    } catch (e, s) {
+      if (e is SocketException) {
+        return DataState.error(
+          message: "No connection to the server",
+          title: "Connection error",
+        );
+      }
+      return DataState.error(
+        message: s.toString(),
+        title: e.toString(),
+      );
+    }
+  }
+
+  Future<DataState<PitchModel>> createPitch({
+    required String title,
+    required String description,
+    required File file,
+  }) async {
+    try {
+      http.Response res = await client.multipartPost("uploadUserPic", body: {
+        "title": title,
+        "description": description,
+        "video": file,
+      });
+
+      print(res.body);
+
+      if (res.statusCode == 200) {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.success(data: PitchModel.fromMap(data["data"]));
+      } else {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.error(
+          message: data["message"],
+          title: "Error",
+        );
+      }
+    } catch (e, s) {
+      if (e is SocketException) {
+        return DataState.error(
+          message: "No connection to the server",
+          title: "Connection error",
+        );
+      }
+      return DataState.error(
+        message: s.toString(),
+        title: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<DataState<User>> updateProfilePic({required File newPic}) async {
+    try {
+      http.Response res = await client.multipartPost("uploadUserPic", body: {
+        "image": newPic,
+      });
+
+      print(res.body);
+
+      if (res.statusCode == 200) {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.success(data: User.fromMap(data["data"]));
+      } else {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.error(
+          message: data["message"],
+          title: "Error",
+        );
+      }
+    } catch (e, s) {
+      if (e is SocketException) {
+        return DataState.error(
+          message: "No connection to the server",
+          title: "Connection error",
+        );
+      }
+      return DataState.error(
+        message: s.toString(),
+        title: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<DataState<User>> register({
+    required String email,
+    required String password,
+    required String userType,
+    required String fullName,
+  }) async {
     try {
       http.Response res = await client.post("register", body: {
         "email": email,

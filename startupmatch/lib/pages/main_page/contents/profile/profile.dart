@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startupmatch/cubit/auth_cubit.dart';
 import 'package:startupmatch/data/test/test_data.dart';
 import 'package:startupmatch/models/user.dart';
-import 'package:startupmatch/pages/auth_page/auth_page.dart';
 import 'package:startupmatch/widgets/buttons/icon_button.dart';
 import 'package:startupmatch/widgets/empty.dart';
 import 'package:startupmatch/widgets/listview.dart';
@@ -111,7 +112,9 @@ class _ContentProfileState extends State<ContentProfile> {
             showShadow: showShadow,
             action: [
               MyIconButton(
-                onTap: () {},
+                onTap: () {
+                  //Open news page
+                },
                 width: 28,
                 height: 28,
                 child: const Icon(
@@ -120,12 +123,8 @@ class _ContentProfileState extends State<ContentProfile> {
                 ),
               ),
               MyIconButton(
-                onTap: () {
-                  Navigator.of(context).pushReplacement(
-                    CupertinoPageRoute(
-                      builder: (context) => const AuthPage(),
-                    ),
-                  );
+                onTap: () async {
+                  await context.read<AuthCubit>().logout();
                 },
                 width: 28,
                 height: 28,

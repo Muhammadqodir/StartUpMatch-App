@@ -43,7 +43,10 @@ class LoginWidget extends StatelessWidget {
             isLoading: context.watch<AuthCubit>().state is LoadingAuthState,
             text: "login".tr(),
             onTap: () async {
-              context.read<AuthCubit>().login(email.text, password.text);
+              context.read<AuthCubit>().login(
+                    email: email.text,
+                    password: password.text,
+                  );
             },
           ),
         ],

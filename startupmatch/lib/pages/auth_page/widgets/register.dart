@@ -39,8 +39,8 @@ class RegisterWidget extends StatelessWidget {
           ),
           RadioButton(
             items: [
+              "startup".tr(),
               "investor".tr(),
-              "startuper".tr(),
             ],
             hint: "select_role".tr(),
             onChange: (v) {
@@ -63,10 +63,10 @@ class RegisterWidget extends StatelessWidget {
             isLoading: context.watch<AuthCubit>().state is LoadingAuthState,
             onTap: () {
               context.read<AuthCubit>().register(
-                    username.text,
-                    password.text,
-                    email.text,
-                    role,
+                    fullName: username.text,
+                    password: password.text,
+                    email: email.text,
+                    userType: role,
                   );
             },
           ),

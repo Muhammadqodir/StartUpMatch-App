@@ -208,11 +208,12 @@ void showLoadingDialog(BuildContext context) {
   );
 }
 
-Future<void> showAlertDialog(
-  BuildContext context,
-  String title,
-  String message,
-) async {
+Future<void> showAlertDialog({
+  required BuildContext context,
+  required String title,
+  required String message,
+  Function? onOk,
+}) async {
   await showCupertinoDialog<void>(
     context: context,
     builder: (BuildContext context) => CupertinoAlertDialog(
@@ -228,6 +229,9 @@ Future<void> showAlertDialog(
         CupertinoDialogAction(
           isDestructiveAction: false,
           onPressed: () {
+            if (onOk != null) {
+              onOk();
+            }
             Navigator.pop(context);
           },
           child: Text(

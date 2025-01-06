@@ -17,9 +17,9 @@ function register(DBHelper $db, $data)
     return $isValid;
   }
   if (count($db->readAllUsersWhere("`email` = '" . $db->sanitize($data["email"]) . "'")) != 0) {
-    return objResponse("User already exists");
+    return objResponse("User with this email already exists");
   }
-  $res = $db->createUser($data["fullName"], $data["email"], $data["userType"], "", date("Y-m-d H:i:s"), "", $data["password"], generateToken(32));
+  $res = $db->createUser($data["fullName"], $data["email"], $data["userType"], "", date("Y-m-d H:i:s"), "", $data["password"], generateToken(32), "");
   if ($res) {
     return objResponse($db->readUser($db->getLastInteredId()));
   } else {
@@ -56,6 +56,11 @@ function getFeed(DBHelper $db, $token)
   }
   $user = $user[0];
   $posts = $db->readAllPitches();
+  foreach ($posts as $key => $value) {
+    $posts[$key]["owner"] = $db->readUser($value["owner"]);
+    $posts[$key]["likes"] = json_decode($value["likes"]);
+    $posts[$key]["comments"] = json_decode($value["comments"]);
+  }
   return objResponse($posts);
 }
 
@@ -111,14 +116,12 @@ function updateAccount(DBHelper $db, $token, $data)
   }
 }
 
-
-
 function uploadUserPic($db, $token, $files)
 {
 
   $user = $db->readAllUsersWhere("`token` = '" . $db->sanitize($token) . "'");
   if (count($user) == 0) {
-    return objResponse("Invalid token");
+    return objResponse("Invalid token:" . $token);
   }
   $user = $user[0];
 

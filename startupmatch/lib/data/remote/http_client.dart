@@ -70,8 +70,7 @@ class MyHttpClient {
             lookupMimeType(value.path, headerBytes: [0xFF, 0xD8])!.split('/');
         request.files.add(
           await http.MultipartFile.fromPath(
-            'filename[]',
-            filename: key,
+            key,
             value.path,
             contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
           ),

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:startupmatch/pages/upgrde_page/premuim_features.dart';
 import 'package:startupmatch/pages/upgrde_page/upgrade_button.dart';
 import 'package:startupmatch/utils/themes.dart';
-import 'package:startupmatch/widgets/buttons/gradient_button.dart';
 import 'package:startupmatch/widgets/buttons/icon_button.dart';
 
 const Gradient silverGradient = LinearGradient(

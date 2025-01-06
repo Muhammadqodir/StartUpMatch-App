@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startupmatch/cubit/auth_cubit.dart';
 import 'package:startupmatch/pages/auth_page/widgets/login.dart';
 import 'package:startupmatch/pages/auth_page/widgets/register.dart';
+import 'package:startupmatch/pages/spash_page.dart';
 import 'package:startupmatch/utils/dialogs.dart';
 import 'package:startupmatch/widgets/divider.dart';
 import 'package:startupmatch/widgets/buttons/icon_button.dart';
@@ -29,20 +31,18 @@ class _AuthPageState extends State<AuthPage> {
                 if (state is ErrorAuthState) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     showAlertDialog(
-                      context,
-                      state.title,
-                      state.message,
+                      context: context,
+                      title: state.title,
+                      message: state.message,
                     );
                   });
                 }
                 if (state is AuthorizedState) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    showAlertDialog(
-                      context,
-                      "Authorized",
-                      state.user.fullName,
-                    );
-                  });
+                  Navigator.of(context).pushReplacement(
+                    CupertinoPageRoute(
+                      builder: (context) => const SplashPage(),
+                    ),
+                  );
                 }
               },
               child: Column(

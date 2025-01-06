@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:startupmatch/data/data_source.dart';
 import 'package:startupmatch/data/data_state.dart';
 import 'package:startupmatch/models/chat/chat_message.dart';
@@ -18,6 +20,7 @@ class TestData {
     joined: "Undefined",
     location: "Undefined",
     token: "Undefined",
+    about: "",
   );
 
   static User testUser = User(
@@ -29,6 +32,7 @@ class TestData {
     joined: "2012-02-27 13:27:00",
     location: "Stavropol",
     token: "Undefined",
+    about: "",
   );
 
   static ChatMessage testMessage = ChatMessage(
@@ -124,20 +128,40 @@ class TestDataSource implements DataSource {
   }
 
   @override
-  Future<DataState<User>> login(
-    String email,
-    String password,
-  ) async {
+  Future<DataState<User>> login({
+    required String email,
+    required String password,
+  }) async {
     return DataState.success(data: TestData.testUser);
   }
 
   @override
-  Future<DataState<User>> register(
-    String email,
-    String password,
-    String fullName,
-    String userType,
-  ) async {
+  Future<DataState<User>> updateProfilePic({
+    required File newPic,
+  }) async {
+    return DataState.error(
+      title: "This is test datasource",
+      message: "This is test datasource",
+    );
+  }
+
+  @override
+  Future<DataState<User>> updateProfileData({
+    required Map<String, dynamic> data,
+  }) async {
+    return DataState.error(
+      title: "This is test datasource",
+      message: "This is test datasource",
+    );
+  }
+
+  @override
+  Future<DataState<User>> register({
+    required String email,
+    required String password,
+    required String fullName,
+    required String userType,
+  }) async {
     return DataState.success(data: TestData.testUser);
   }
 }

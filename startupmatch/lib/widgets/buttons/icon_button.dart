@@ -9,6 +9,7 @@ class MyIconButton extends StatelessWidget {
     required this.child,
     this.height = 40,
     this.width = double.infinity,
+    this.decoration,
     this.margin = const EdgeInsets.all(0),
     this.padding = const EdgeInsets.all(0),
   });
@@ -16,6 +17,7 @@ class MyIconButton extends StatelessWidget {
   final double width;
   final Function onTap;
   final Widget child;
+  final BoxDecoration? decoration;
   final EdgeInsets margin;
   final EdgeInsets padding;
 
@@ -27,6 +29,7 @@ class MyIconButton extends StatelessWidget {
       },
       child: Container(
         padding: padding,
+        decoration: decoration,
         margin: margin,
         height: height,
         alignment: Alignment.center,

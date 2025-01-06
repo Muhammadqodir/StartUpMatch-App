@@ -64,7 +64,14 @@ class _SplashPageState extends State<SplashPage> {
                   ),
                 );
               } else if (state is ErrorAuthState) {
-                showAlertDialog(context, state.title, state.message);
+                showAlertDialog(
+                  context: context,
+                  title: state.title,
+                  message: state.message,
+                  onOk: () {
+                    context.read<AuthCubit>().logout();
+                  },
+                );
               }
             },
             child: Center(

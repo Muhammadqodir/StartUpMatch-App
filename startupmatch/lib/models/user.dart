@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:startupmatch/data/remote/remote_data_source.dart';
 
 class User {
@@ -10,6 +12,7 @@ class User {
   String pic;
   String joined;
   String location;
+  String about;
   String token;
   User({
     required this.id,
@@ -19,6 +22,7 @@ class User {
     required this.pic,
     required this.joined,
     required this.location,
+    required this.about,
     required this.token,
   });
 
@@ -37,6 +41,11 @@ class User {
     return serverBaseUrl + pic;
   }
 
+  String getJoinedDate() {
+    DateTime parsedDate = DateTime.parse(joined);
+    return DateFormat.yMMMM().format(parsedDate);
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
@@ -46,6 +55,7 @@ class User {
       'pic': pic,
       'joined': joined,
       'location': location,
+      'about': about,
       'token': token,
     };
   }
@@ -59,6 +69,7 @@ class User {
       pic: map['pic'] as String,
       joined: map['joined'] as String,
       location: map['location'] as String,
+      about: map['about'] as String,
       token: map['token'] as String,
     );
   }

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:startupmatch/data/data_source.dart';
 import 'package:startupmatch/data/data_state.dart';
 import 'package:startupmatch/data/local/local_data_source.dart';
@@ -13,8 +16,14 @@ class AuthCubit extends Cubit<AuthState> {
     emit(LoadingAuthState());
     if (await getIt<LocalDataSource>().isLogin()) {
       try {
+        final getIt = GetIt.instance;
+        await getIt.reset();
+        await setupDependencies();
+        await getIt.allReady();
         emit(
-          AuthorizedState(user: (await getIt<LocalDataSource>().getUser())!),
+          AuthorizedState(
+            user: (await getIt<LocalDataSource>().getUser())!,
+          ),
         );
       } catch (e, s) {
         emit(ErrorAuthState(title: e.toString(), message: s.toString()));
@@ -24,13 +33,16 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login({
+    required String email,
+    required String password,
+  }) async {
     emit(LoadingAuthState());
 
     DataSource dataSource = await getIt.getAsync<DataSource>();
     DataState<User> response = await dataSource.login(
-      email,
-      password,
+      email: email,
+      password: password,
     );
     if (response.isSuccess) {
       getIt<LocalDataSource>().saveData("user", response.data!.toJson());
@@ -42,27 +54,53 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> register(
-    String fullName,
-    String email,
-    String password,
-    String userType,
-  ) async {
+  Future<void> register({
+    required String fullName,
+    required String email,
+    required String password,
+    required String userType,
+  }) async {
     emit(LoadingAuthState());
     DataSource dataSource = await getIt.getAsync<DataSource>();
     DataState<User> response = await dataSource.register(
-      email,
-      password,
-      fullName,
-      userType,
+      email: email,
+      password: password,
+      fullName: fullName,
+      userType: userType,
     );
     if (response.isSuccess) {
       getIt<LocalDataSource>().saveData("user", response.data!.toJson());
-      getIt<LocalDataSource>().saveData("user", response.data!.token);
+      getIt<LocalDataSource>().saveData("token", response.data!.token);
       getIt<LocalDataSource>().setIsLogin(true);
       emit(AuthorizedState(user: response.data!));
     } else {
       emit(ErrorAuthState(title: response.title, message: response.message));
+    }
+  }
+
+  Future<void> updateProfilePic(File newImage) async {
+    emit(LoadingAuthState());
+    DataSource dataSource = await getIt.getAsync<DataSource>();
+    DataState<User> response = await dataSource.updateProfilePic(
+      newPic: newImage,
+    );
+    if (response.isSuccess) {
+      getIt<LocalDataSource>().saveData("user", response.data!.toJson());
+      emit(AuthorizedState(user: response.data!));
+    }
+  }
+
+  Future<void> updateProfileData(Map<String, dynamic> profileData) async {
+    emit(LoadingAuthState());
+    DataSource dataSource = await getIt.getAsync<DataSource>();
+    DataState<User> response = await dataSource.updateProfileData(
+      data: profileData,
+    );
+    if (response.isSuccess) {
+      getIt<LocalDataSource>().saveData("user", response.data!.toJson());
+      emit(AuthorizedState(user: response.data!));
+    }else{
+      print(response.message);
     }
   }
 

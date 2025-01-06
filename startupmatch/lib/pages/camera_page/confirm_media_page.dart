@@ -7,7 +7,6 @@ import 'package:startupmatch/pages/camera_page/camera_page.dart';
 import 'package:startupmatch/pages/create_page/create_pitch_page.dart';
 import 'package:startupmatch/widgets/buttons/base_button.dart';
 import 'package:startupmatch/widgets/buttons/icon_button.dart';
-import 'package:startupmatch/widgets/buttons/tap_scale.dart';
 import 'package:startupmatch/widgets/video_time_limit.dart';
 import 'package:video_player/video_player.dart';
 

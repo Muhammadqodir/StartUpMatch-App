@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startupmatch/cubit/feed_cubit.dart';
+import 'package:startupmatch/widgets/empty.dart';
 import 'package:startupmatch/widgets/match_widget/action_icon.dart';
 import 'package:startupmatch/widgets/match_widget/card.dart';
 import 'package:startupmatch/widgets/post_widget/post_widget.dart';
@@ -70,7 +71,7 @@ class _MatchWidgetState extends State<MatchWidget> {
                         );
                       },
                     )
-                  : const SizedBox();
+                  : const EmptyWidget(title: "No data");
             },
           );
   }
