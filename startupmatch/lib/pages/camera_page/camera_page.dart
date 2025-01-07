@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:startupmatch/pages/camera_page/confirm_media_page.dart';
 import 'package:startupmatch/widgets/buttons/icon_button.dart';
 import 'package:startupmatch/widgets/buttons/tap_scale.dart';
@@ -90,6 +92,12 @@ class _CameraPageState extends State<CameraPage> {
 
     try {
       XFile videoFile = await controller!.stopVideoRecording();
+
+      // Rename the file to have an .mp4 extension
+      final directory = await getApplicationCacheDirectory();
+      final newPath = '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.mp4';
+      final newFile = await File(videoFile.path).rename(newPath);
+
       setState(() {
         isRecording = false;
         recordingProgress = 0.0;
@@ -99,7 +107,7 @@ class _CameraPageState extends State<CameraPage> {
       // Navigate to CreatePitchPage with the video path
       Navigator.of(context).pushReplacement(
         CupertinoPageRoute(
-          builder: (context) => ConfirmMediaPage(videoPath: videoFile.path),
+          builder: (context) => ConfirmMediaPage(videoPath: newFile.path),
         ),
       );
     } catch (e) {

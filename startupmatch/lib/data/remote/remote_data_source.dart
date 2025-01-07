@@ -151,13 +151,14 @@ class RemoteDataSource implements DataSource {
   Future<DataState<PitchModel>> createPitch({
     required String title,
     required String description,
-    required File file,
+    required File video,
   }) async {
     try {
-      http.Response res = await client.multipartPost("uploadUserPic", body: {
+      print(video);
+      http.Response res = await client.multipartPost("uploadPitch", body: {
         "title": title,
         "description": description,
-        "video": file,
+        "video": video,
       });
 
       print(res.body);

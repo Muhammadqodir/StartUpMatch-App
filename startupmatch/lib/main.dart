@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:startupmatch/cubit/feed_cubit.dart';
 import 'package:startupmatch/cubit/auth_cubit.dart';
+import 'package:startupmatch/cubit/createpost_cubit.dart';
+import 'package:startupmatch/cubit/video_player_cubit.dart';
 import 'package:startupmatch/di/di.dart';
 import 'package:startupmatch/pages/spash_page.dart';
 import 'package:startupmatch/utils/themes.dart';
@@ -37,6 +39,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<AuthCubit>(
           create: (context) => AuthCubit(),
+        ),
+        BlocProvider<CreatePostCubit>(
+          create: (context) => CreatePostCubit(),
+        ),
+        BlocProvider<VideoPlayerCubit>(
+          create: (context) => VideoPlayerCubit(),
         ),
       ],
       child: MaterialApp(

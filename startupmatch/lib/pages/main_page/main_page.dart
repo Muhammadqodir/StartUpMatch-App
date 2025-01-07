@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startupmatch/cubit/video_player_cubit.dart';
+import 'package:startupmatch/main.dart';
 import 'package:startupmatch/pages/camera_page/camera_page.dart';
 import 'package:startupmatch/pages/main_page/contents/chat.dart';
 import 'package:startupmatch/pages/main_page/contents/main.dart';
@@ -75,8 +78,10 @@ class _MainPageState extends State<MainPage> {
                   }
                   if (index != 0) {
                     isTransparentAppBar = true;
+                    context.read<VideoPlayerCubit>().pause();
                   } else {
                     isTransparentAppBar = false;
+                    context.read<VideoPlayerCubit>().resume();
                   }
                   if (index == 2) {
                     showAppBar = false;

@@ -68,6 +68,7 @@ class MyHttpClient {
       if (value.runtimeType.toString() == "_File") {
         final mimeTypeData =
             lookupMimeType(value.path, headerBytes: [0xFF, 0xD8])!.split('/');
+        print("MIME: $mimeTypeData");
         request.files.add(
           await http.MultipartFile.fromPath(
             key,
