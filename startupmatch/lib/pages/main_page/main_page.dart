@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startupmatch/cubit/auth_cubit.dart';
 import 'package:startupmatch/cubit/video_player_cubit.dart';
-import 'package:startupmatch/main.dart';
 import 'package:startupmatch/pages/camera_page/camera_page.dart';
 import 'package:startupmatch/pages/main_page/contents/chat.dart';
 import 'package:startupmatch/pages/main_page/contents/main.dart';
@@ -22,6 +22,14 @@ class _MainPageState extends State<MainPage> {
   int selectedIndex = 0;
   bool isTransparentAppBar = true;
   bool showAppBar = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<AuthCubit>().getMyPosts();
+    context.read<AuthCubit>().getMe();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +78,7 @@ class _MainPageState extends State<MainPage> {
                   if (index != 1) {
                     selectedIndex = index;
                   } else {
+                    context.read<VideoPlayerCubit>().pause();
                     Navigator.of(context).push(
                       CupertinoPageRoute(
                         builder: (context) => const CameraPage(),

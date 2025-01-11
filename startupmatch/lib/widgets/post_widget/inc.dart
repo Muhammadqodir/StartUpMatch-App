@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:startupmatch/models/user.dart';
 import 'package:startupmatch/widgets/buttons/flat_button.dart';
@@ -79,7 +80,7 @@ class UserTitle extends StatelessWidget {
               height: 60,
               child: FlatButton(
                 padding: const EdgeInsets.all(0),
-                title: "Follow",
+                title: "message".tr(),
                 onTap: () {},
               ),
             ),
@@ -94,7 +95,9 @@ class ExpandDescription extends StatefulWidget {
     super.key,
     required this.text,
     this.lines = 2,
+    this.color = Colors.white,
   });
+  final Color color;
   final String text;
   final int lines;
 
@@ -122,7 +125,7 @@ class _ExpandDescriptionState extends State<ExpandDescription> {
         maxLines: widget.lines,
         overflow: TextOverflow.ellipsis,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Colors.white,
+              color: widget.color,
             ),
       ),
     );

@@ -7,6 +7,7 @@ import 'package:startupmatch/data/data_state.dart';
 import 'package:http/http.dart' as http;
 import 'package:startupmatch/data/remote/http_client.dart';
 import 'package:startupmatch/models/post/pitch.dart';
+import 'package:startupmatch/models/post/post.dart';
 import 'package:startupmatch/models/user.dart';
 
 const String serverBaseUrl = "https://sandbox.alfocus.uz/startup-match/";
@@ -124,6 +125,66 @@ class RemoteDataSource implements DataSource {
     try {
       http.Response res = await client.post("updateAccount", body: data);
       print(res.body);
+      if (res.statusCode == 200) {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.success(data: User.fromMap(data["data"]));
+      } else {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.error(
+          message: data["message"],
+          title: "Error",
+        );
+      }
+    } catch (e, s) {
+      if (e is SocketException) {
+        return DataState.error(
+          message: "No connection to the server",
+          title: "Connection error",
+        );
+      }
+      return DataState.error(
+        message: s.toString(),
+        title: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<DataState<List<Post>>> getMyPosts() async {
+    try {
+      http.Response res = await client.get("getMyPitches");
+      if (res.statusCode == 200) {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        List<Post> list = [];
+        for (var element in data["data"]) {
+          list.add(Post.fromMap(element));
+        }
+        return DataState.success(data: list);
+      } else {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.error(
+          message: data["message"],
+          title: "Error",
+        );
+      }
+    } catch (e, s) {
+      if (e is SocketException) {
+        return DataState.error(
+          message: "No connection to the server",
+          title: "Connection error",
+        );
+      }
+      return DataState.error(
+        message: s.toString(),
+        title: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<DataState<User>> getMe() async {
+    try {
+      http.Response res = await client.get("getMe");
       if (res.statusCode == 200) {
         Map<String, dynamic> data = jsonDecode(res.body);
         return DataState.success(data: User.fromMap(data["data"]));

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:startupmatch/data/remote/remote_data_source.dart';
 import 'package:startupmatch/models/post/comment.dart';
 import 'package:startupmatch/models/post/like.dart';
@@ -22,6 +23,16 @@ class PitchModel extends Post {
     required super.comments,
     required super.date,
   });
+
+  DateTime getDateTime() {
+    DateTime dateTime = DateTime.parse(date);
+    return dateTime;
+  }
+
+  String getShortTime() {
+    DateTime dateTime = getDateTime();
+    return DateFormat.MEd().format(dateTime);
+  }
 
   String getVideoUrl() {
     if (videoUrl.contains("http")) {

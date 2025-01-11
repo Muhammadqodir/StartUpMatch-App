@@ -6,6 +6,7 @@ import 'package:startupmatch/data/data_source.dart';
 import 'package:startupmatch/data/data_state.dart';
 import 'package:startupmatch/data/local/local_data_source.dart';
 import 'package:startupmatch/di/di.dart';
+import 'package:startupmatch/models/post/post.dart';
 import 'package:startupmatch/models/user.dart';
 part 'auth_state.dart';
 
@@ -78,6 +79,26 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> getMyPosts() async {
+    if (state is AuthorizedState) {
+      DataSource dataSource = await getIt.getAsync<DataSource>();
+      DataState<List<Post>> myPosts = await dataSource.getMyPosts();
+      if (myPosts.isSuccess) {
+        emit((state as AuthorizedState).copyWith(myPosts: myPosts.data!));
+      }
+    }
+  }
+
+  Future<void> getMe() async {
+    if (state is AuthorizedState) {
+      DataSource dataSource = await getIt.getAsync<DataSource>();
+      DataState<User> me = await dataSource.getMe();
+      if (me.isSuccess) {
+        emit((state as AuthorizedState).copyWith(user: me.data!));
+      }
+    }
+  }
+
   Future<void> updateProfilePic(File newImage) async {
     emit(LoadingAuthState());
     DataSource dataSource = await getIt.getAsync<DataSource>();
@@ -99,7 +120,7 @@ class AuthCubit extends Cubit<AuthState> {
     if (response.isSuccess) {
       getIt<LocalDataSource>().saveData("user", response.data!.toJson());
       emit(AuthorizedState(user: response.data!));
-    }else{
+    } else {
       print(response.message);
     }
   }

@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startupmatch/cubit/auth_cubit.dart';
 import 'package:startupmatch/data/test/test_data.dart';
 import 'package:startupmatch/models/user.dart';
+import 'package:startupmatch/pages/main_page/contents/profile/pitch_list.dart';
 import 'package:startupmatch/widgets/buttons/icon_button.dart';
-import 'package:startupmatch/widgets/empty.dart';
 import 'package:startupmatch/widgets/listview.dart';
 import 'package:startupmatch/widgets/app_bar/my_appbar.dart';
 import 'package:startupmatch/pages/main_page/contents/profile/profile_widget.dart';
@@ -48,39 +48,20 @@ class _ContentProfileState extends State<ContentProfile> {
                       child: ProfileWidget(),
                     ),
                     TabLayout(
-                      items: const [
+                      items: [
                         MyTabBarItem(
                           icon: CupertinoIcons.rectangle_grid_2x2,
-                          title: "Pitches",
+                          title: "pitches".tr(),
                           count: 123,
                         ),
                         MyTabBarItem(
                           icon: CupertinoIcons.rectangle_stack_person_crop_fill,
-                          title: "Following",
+                          title: "likes".tr(),
                           count: 234,
-                        ),
-                        MyTabBarItem(
-                          icon: CupertinoIcons.person_3,
-                          title: "Followers",
-                          count: 1234,
                         ),
                       ],
                       contents: [
-                        const EmptyWidget(title: "List is empty!"),
-                        Column(
-                          children: List<User>.filled(4, TestData.testUser)
-                              .map(
-                                (e) => UserTitle(
-                                  user: TestData.testUser,
-                                  isList: true,
-                                  margin: const EdgeInsets.symmetric(
-                                    vertical: 6,
-                                    horizontal: 12,
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
+                        const MyPostsWidget(),
                         Column(
                           children: List<User>.filled(6, TestData.testUser)
                               .map(

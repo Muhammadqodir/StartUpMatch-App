@@ -93,7 +93,14 @@ function getMyPitches(DBHelper $db, $token)
     return objResponse("Invalid token");
   }
   $user = $user[0];
-  $pitches = $db->readAllPitchesWhere("`user_id` = '" . $db->sanitize($user["id"]) . "'");
+  $pitches = $db->readAllPitchesWhere("`owner` = '" . $db->sanitize($user["id"]) . "'");
+
+  foreach ($pitches as $key => $value) {
+    $pitches[$key]["owner"] = $db->readUser($value["owner"]);
+    $pitches[$key]["likes"] = json_decode($value["likes"]);
+    $pitches[$key]["comments"] = json_decode($value["comments"]);
+  }
+
   return objResponse($pitches);
 }
 

@@ -103,4 +103,22 @@ class LocalDataSource implements DataSource {
     }
     return null;
   }
+
+  @override
+  Future<DataState<User>> getMe() async {
+    User? user = await getUser();
+    if (user != null) {
+      return DataState.success(data: user);
+    } else {
+      return DataState.error(
+        title: "Error",
+        message: "User not found",
+      );
+    }
+  }
+
+  @override
+  Future<DataState<List<Post>>> getMyPosts() async {
+    return DataState.error(title: "Error", message: "No local data");
+  }
 }

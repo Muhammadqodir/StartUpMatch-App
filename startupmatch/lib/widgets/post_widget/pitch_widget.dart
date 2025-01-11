@@ -69,9 +69,11 @@ class _PitchWidgetState extends State<PitchWidget> {
               child: _controller != null
                   ? GestureDetector(
                       onTap: () {
-                        // _controller!.play();
-                        // _controller!.setLooping(true);
-                        // print("Playing");
+                        if (_controller!.value.isPlaying) {
+                          context.read<VideoPlayerCubit>().pause();
+                        } else {
+                          context.read<VideoPlayerCubit>().resume();
+                        }
                       },
                       child: VideoPlayer(_controller!),
                     )

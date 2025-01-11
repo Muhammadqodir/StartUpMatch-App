@@ -28,4 +28,8 @@ abstract class DataSource {
   Future<DataState<User>> updateProfileData({
     required Map<String, dynamic> data,
   });
+
+  Future<DataState<List<Post>>> getMyPosts();
+
+  Future<DataState<User>> getMe();
 }

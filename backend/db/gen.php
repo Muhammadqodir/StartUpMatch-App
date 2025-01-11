@@ -1,5 +1,7 @@
 <?php
 
+exit();
+
 require "../config.php";
 
 $mysqli = new mysqli($host, $user, $password, $db);

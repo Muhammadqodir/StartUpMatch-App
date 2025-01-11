@@ -164,4 +164,20 @@ class TestDataSource implements DataSource {
   }) async {
     return DataState.success(data: TestData.testUser);
   }
+
+  @override
+  Future<DataState<User>> getMe() async {
+    return DataState.error(
+      title: "This is test datasource",
+      message: "This is test datasource",
+    );
+  }
+
+  @override
+  Future<DataState<List<Post>>> getMyPosts() async {
+    return DataState.error(
+      title: "This is test datasource",
+      message: "This is test datasource",
+    );
+  }
 }
