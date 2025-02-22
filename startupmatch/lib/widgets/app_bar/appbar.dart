@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:startupmatch/pages/camera_page/camera_page.dart';
+import 'package:startupmatch/pages/notifications_page/notifications_page.dart';
 import 'package:startupmatch/widgets/buttons/icon_button.dart';
 
 class MainAppBar extends StatelessWidget {
@@ -63,7 +64,7 @@ class MainAppBar extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         CupertinoPageRoute(
-                          builder: (context) => const CameraPage(),
+                          builder: (context) => const NotificationsPage(),
                         ),
                       );
                     },

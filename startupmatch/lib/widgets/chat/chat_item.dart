@@ -1,7 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startupmatch/cubit/auth_cubit.dart';
 import 'package:startupmatch/data/test/test_data.dart';
+import 'package:startupmatch/main.dart';
 import 'package:startupmatch/models/chat/chat_model.dart';
+import 'package:startupmatch/models/user.dart';
 import 'package:startupmatch/widgets/custom_ink.dart';
 
 class ChatItem extends StatelessWidget {
@@ -16,6 +20,7 @@ class ChatItem extends StatelessWidget {
   final Function onTap;
   @override
   Widget build(BuildContext context) {
+    User me = (context.read<AuthCubit>().state as AuthorizedState).user;
     return CrossListElement(
       onPressed: () {
         onTap();
@@ -30,8 +35,16 @@ class ChatItem extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(
-                    chatModel.getCompanion(TestData.testUser).getUserPicUrl(),
+                    chatModel.getCompanion(me).getUserPicUrl(),
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        "assets/ic_launcher.png",
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
+                      );
+                    },
                     width: 60,
                     height: 60,
                   ),
@@ -46,9 +59,7 @@ class ChatItem extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              chatModel
-                                  .getCompanion(TestData.testUser)
-                                  .fullName,
+                              chatModel.getCompanion(me).fullName,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.titleMedium,
@@ -62,6 +73,7 @@ class ChatItem extends StatelessWidget {
                                 child: Text(
                                   chatModel.getLastMessage()!.getShortTime(),
                                   maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                               ),
@@ -73,7 +85,9 @@ class ChatItem extends StatelessWidget {
                           opacity: 0.8,
                           child: Text(
                             chatModel.getLastMessage()!.content,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ),
                       if (chatModel.lastMessages.isEmpty)

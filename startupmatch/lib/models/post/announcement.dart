@@ -17,6 +17,7 @@ class AnnouncementModel extends Post {
     required super.id,
     required super.owner,
     required super.likes,
+    required super.dislikes,
     required super.comments,
     required super.date,
     required this.content,
@@ -24,6 +25,7 @@ class AnnouncementModel extends Post {
     required this.link,
     required this.title,
     required this.btnTitle,
+    required super.views,
   });
 
   Map<String, dynamic> toMap() {
@@ -36,8 +38,10 @@ class AnnouncementModel extends Post {
       'btnTitle': btnTitle,
       'owner': owner.toMap(),
       'likes': likes.map((x) => x.toMap()).toList(),
+      'dislikes': dislikes.map((x) => x.toMap()).toList(),
       'comments': comments.map((x) => x.toMap()).toList(),
       'date': date,
+      'views': views,
     };
   }
 
@@ -55,12 +59,18 @@ class AnnouncementModel extends Post {
           (x) => Like.fromMap(x as Map<String, dynamic>),
         ),
       ),
+      dislikes: List<Like>.from(
+        (map['dislikes'] as List<int>).map<Like>(
+          (x) => Like.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
       comments: List<Comment>.from(
         (map['comments'] as List<int>).map<Comment>(
           (x) => Comment.fromMap(x as Map<String, dynamic>),
         ),
       ),
       date: map['date'] as String,
+      views: map['views'] as int,
     );
   }
 

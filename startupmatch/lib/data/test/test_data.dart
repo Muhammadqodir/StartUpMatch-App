@@ -4,6 +4,7 @@ import 'package:startupmatch/data/data_source.dart';
 import 'package:startupmatch/data/data_state.dart';
 import 'package:startupmatch/models/chat/chat_message.dart';
 import 'package:startupmatch/models/chat/chat_model.dart';
+import 'package:startupmatch/models/notification.dart';
 import 'package:startupmatch/models/post/announcement.dart';
 import 'package:startupmatch/models/post/pitch.dart';
 import 'package:startupmatch/models/post/post.dart';
@@ -38,14 +39,13 @@ class TestData {
   static ChatMessage testMessage = ChatMessage(
     id: 0,
     content: "test",
-    media: [],
+    media: "",
     from: testUser,
     to: testUser,
     time: "2012-02-27 13:27:00",
   );
 
   static ChatModel testChatModel = ChatModel(
-    id: 0,
     user: testUser,
     user1: testUser,
     lastMessages: [
@@ -66,8 +66,10 @@ class TestData {
     link: "https://alfocus.uz/",
     owner: testUser,
     likes: [],
+    dislikes: [],
     comments: [],
     date: "2012-02-27 13:27:00",
+    views: 0,
   );
 
   static PitchModel pitchModel = PitchModel(
@@ -78,8 +80,10 @@ class TestData {
     videoUrl: "uploads/WrzxCKGTAc_pitch.mp4",
     owner: testUser,
     likes: [],
+    dislikes: [],
     comments: [],
     date: "2012-02-27 13:27:00",
+    views: 0,
   );
 
   static PitchModel pitchModel1 = PitchModel(
@@ -91,8 +95,10 @@ class TestData {
         "https://videos.pexels.com/video-files/4778723/4778723-uhd_1440_2732_25fps.mp4",
     owner: testUser,
     likes: [],
+    dislikes: [],
     comments: [],
     date: "2012-02-27 13:27:00",
+    views: 0,
   );
 
   static PitchModel pitchModel2 = PitchModel(
@@ -104,8 +110,10 @@ class TestData {
         "https://videos.pexels.com/video-files/5741026/5741026-uhd_1440_2560_30fps.mp4",
     owner: testUser,
     likes: [],
+    dislikes: [],
     comments: [],
     date: "2012-02-27 13:27:00",
+    views: 0,
   );
 
   static List<Post> pitches = [
@@ -145,6 +153,19 @@ class TestDataSource implements DataSource {
     );
   }
 
+
+
+  @override
+  Future<void> likePitch({
+    required int postId,
+    required String action,
+  }) async {}
+
+  @override
+  Future<void> addView({
+    required int postId,
+  }) async {}
+
   @override
   Future<DataState<User>> updateProfileData({
     required Map<String, dynamic> data,
@@ -179,5 +200,37 @@ class TestDataSource implements DataSource {
       title: "This is test datasource",
       message: "This is test datasource",
     );
+  }
+  
+  @override
+  Future<DataState<List<ChatModel>>> fetchMyChats() async {
+    return DataState.error(
+      title: "This is test datasource",
+      message: "This is test datasource",
+    );
+  }
+  
+  @override
+  Future<DataState<List<ChatMessage>>> fetchMessages(int counterpartUserId) async {
+    // TODO: implement fetchMessages
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<DataState<List<ChatMessage>>> sendMessage({required int cUserId, required String text, File? attachment}) {
+    // TODO: implement sendMessage
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<NotificationModel>> getNotifications() {
+    // TODO: implement getNotifications
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<DataState<bool>> removePitch(int id) {
+    // TODO: implement removePitch
+    throw UnimplementedError();
   }
 }

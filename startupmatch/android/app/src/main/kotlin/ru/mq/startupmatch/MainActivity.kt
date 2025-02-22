@@ -1,4 +1,4 @@
-package com.example.startupmatch
+package ru.mq.startupmatch
 
 import io.flutter.embedding.android.FlutterActivity
 

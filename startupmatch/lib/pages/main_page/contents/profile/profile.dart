@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:startupmatch/cubit/auth_cubit.dart';
 import 'package:startupmatch/data/test/test_data.dart';
 import 'package:startupmatch/models/user.dart';
+import 'package:startupmatch/pages/lang_page.dart';
 import 'package:startupmatch/pages/main_page/contents/profile/pitch_list.dart';
 import 'package:startupmatch/widgets/buttons/icon_button.dart';
 import 'package:startupmatch/widgets/listview.dart';
@@ -25,6 +26,7 @@ class _ContentProfileState extends State<ContentProfile> {
 
   @override
   Widget build(BuildContext context) {
+    AuthState state = context.watch<AuthCubit>().state;
     return Stack(
       children: [
         SafeArea(
@@ -34,7 +36,7 @@ class _ContentProfileState extends State<ContentProfile> {
                 showShadow = !v;
               });
             },
-            children: [
+            children: const [
               Padding(
                 padding: const EdgeInsets.only(
                   top: 72,
@@ -43,41 +45,44 @@ class _ContentProfileState extends State<ContentProfile> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12),
                       child: ProfileWidget(),
                     ),
-                    TabLayout(
-                      items: [
-                        MyTabBarItem(
-                          icon: CupertinoIcons.rectangle_grid_2x2,
-                          title: "pitches".tr(),
-                          count: 123,
-                        ),
-                        MyTabBarItem(
-                          icon: CupertinoIcons.rectangle_stack_person_crop_fill,
-                          title: "likes".tr(),
-                          count: 234,
-                        ),
-                      ],
-                      contents: [
-                        const MyPostsWidget(),
-                        Column(
-                          children: List<User>.filled(6, TestData.testUser)
-                              .map(
-                                (e) => UserTitle(
-                                  user: TestData.testUser,
-                                  isList: true,
-                                  margin: const EdgeInsets.symmetric(
-                                    vertical: 6,
-                                    horizontal: 12,
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ],
-                    )
+                    MyPostsWidget(),
+                    // TabLayout(
+                    //   items: [
+                    //     MyTabBarItem(
+                    //       icon: CupertinoIcons.rectangle_grid_2x2,
+                    //       title: "pitches".tr(),
+                    //       count: state is AuthorizedState
+                    //           ? state.myPosts.length
+                    //           : 0,
+                    //     ),
+                    //     MyTabBarItem(
+                    //       icon: CupertinoIcons.rectangle_stack_person_crop_fill,
+                    //       title: "likes".tr(),
+                    //       count: 234,
+                    //     ),
+                    //   ],
+                    //   contents: [
+                    //     const MyPostsWidget(),
+                    //     Column(
+                    //       children: List<User>.filled(6, TestData.testUser)
+                    //           .map(
+                    //             (e) => UserTitle(
+                    //               user: TestData.testUser,
+                    //               isList: true,
+                    //               margin: const EdgeInsets.symmetric(
+                    //                 vertical: 6,
+                    //                 horizontal: 12,
+                    //               ),
+                    //             ),
+                    //           )
+                    //           .toList(),
+                    //     ),
+                    //   ],
+                    // )
                   ],
                 ),
               ),
@@ -89,17 +94,32 @@ class _ContentProfileState extends State<ContentProfile> {
           left: 0,
           right: 0,
           child: MyAppBar(
-            title: "Profile".tr(),
+            title: "profile".tr(),
             showShadow: showShadow,
             action: [
+              // MyIconButton(
+              //   onTap: () {
+              //     //Open news page
+              //   },
+              //   width: 28,
+              //   height: 28,
+              //   child: const Icon(
+              //     CupertinoIcons.text_badge_star,
+              //     size: 28,
+              //   ),
+              // ),
               MyIconButton(
                 onTap: () {
-                  //Open news page
+                  Navigator.of(context).push(
+                    CupertinoPageRoute(
+                      builder: (context) => const LangSelect(),
+                    ),
+                  );
                 },
                 width: 28,
                 height: 28,
                 child: const Icon(
-                  CupertinoIcons.text_badge_star,
+                  CupertinoIcons.globe,
                   size: 28,
                 ),
               ),

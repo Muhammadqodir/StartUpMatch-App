@@ -2,6 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:startupmatch/cubit/my_posts_cubit.dart';
+import 'package:startupmatch/models/post/post.dart';
+import 'package:startupmatch/widgets/buttons/settings_item.dart';
 
 // This shows a CupertinoModalPopup with a reasonable fixed height which hosts CupertinoPicker.
 void showSelectWeekDialog({
@@ -241,5 +247,43 @@ Future<void> showAlertDialog({
         ),
       ],
     ),
+  );
+}
+
+void showBottomContextDialog(BuildContext context, Post post) {
+  showMaterialModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return Container(
+        height: 130,
+        width: double.infinity,
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
+              child: Text(
+                "actions".tr(),
+                textAlign: TextAlign.start,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+              child: SettingsItem(
+                icon: CupertinoIcons.trash,
+                title: "remove".tr(),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await context.read<MyPostsCubit>().removePost(post.id);
+                  Fluttertoast.showToast(msg: "done".tr());
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    },
   );
 }

@@ -23,6 +23,12 @@ header('Content-type: application/json');
 $version = $split[1];
 $method = $split[2];
 
+$authUser = "unautorized";
+$dbRes = $db->readAllUsersWhere("`token` = '" . $db->sanitize($token) . "'");
+if (count($dbRes) > 0) {
+  $authUser = $dbRes[0];
+}
+
 $res = [
   "code" => 200,
   "data" => null,
@@ -37,25 +43,60 @@ switch ($method) {
     httpResponse(login($db, $_POST));
     break;
   case 'getFeed':
-    httpResponse(getFeed($db, $token));
+    allowOnlyAuth();
+    httpResponse(getFeed($db, $authUser));
+    break;
+  case 'getNotifications':
+    allowOnlyAuth();
+    httpResponse(getNotifications($db, $authUser));
     break;
   case 'uploadPitch':
-    httpResponse(uploadPitch($db, $token, $_POST, $_FILES));
+    allowOnlyAuth();
+    httpResponse(uploadPitch($db, $authUser, $_POST, $_FILES));
+    break;
+  case 'removePitch':
+    allowOnlyAuth();
+    httpResponse(removePitch($db, $authUser, $_GET["id"],));
     break;
   case 'getMe':
-    httpResponse(getMe($db, $token));
+    allowOnlyAuth();
+    httpResponse(getMe($db, $authUser));
     break;
   case 'getMyPitches':
-    httpResponse(getMyPitches($db, $token));
+    allowOnlyAuth();
+    httpResponse(getMyPitches($db, $authUser));
+    break;
+  case 'getMyChats':
+    allowOnlyAuth();
+    httpResponse(getMyChats($db, $authUser));
+    break;
+  case 'getMessages':
+    allowOnlyAuth();
+    httpResponse(getMessages($db, $authUser, $_GET["cUserId"]));
+    break;
+  case 'sendMessage':
+    allowOnlyAuth();
+    httpResponse(sendMessage($db, $authUser, $_POST, $_FILES));
     break;
   case 'updateAccount':
-    httpResponse(updateAccount($db, $token, $_POST));
+    allowOnlyAuth();
+    httpResponse(updateAccount($db, $authUser, $_POST));
     break;
   case 'uploadUserPic':
-    httpResponse(uploadUserPic($db, $token, $_FILES));
+    allowOnlyAuth();
+    httpResponse(uploadUserPic($db, $authUser, $_FILES));
+    break;
+  case 'addLike':
+    allowOnlyAuth();
+    httpResponse(addLike($db, $authUser, $_POST));
+    break;
+  case 'addView':
+    allowOnlyAuth();
+    httpResponse(addView($db, $authUser, $_GET));
     break;
 
   case 'removeAccount':
+    allowOnlyAuth();
     httpResponse([
       "code" => 200,
       "data" => null,
@@ -68,6 +109,19 @@ switch ($method) {
       "data" => null,
       "message" => "method not found"
     ]);
+}
+
+function allowOnlyAuth()
+{
+  global $authUser;
+  if ($authUser == "unautorized") {
+    httpResponse([
+      "code" => 401,
+      "data" => null,
+      "message" => "Invalid token"
+    ]);
+    exit();
+  }
 }
 
 function httpResponse($response)

@@ -2,7 +2,7 @@
 
 require_once "validator.php";
 
-function uploadPitch(DBHelper $db, $token, $data, $files)
+function uploadPitch(DBHelper $db, $authUser, $data, $files)
 {
   //validation
   $isValid = validate([
@@ -12,12 +12,6 @@ function uploadPitch(DBHelper $db, $token, $data, $files)
   if ($isValid != "success") {
     return $isValid;
   }
-
-  $users = $db->readAllUsersWhere("`token` = '" . $db->sanitize($token) . "'");
-  if (count($users) == 0) {
-    return objResponse("Invalid token");
-  }
-  $user = $users[0];
 
   $videoUrl = "";
   if (
@@ -33,7 +27,7 @@ function uploadPitch(DBHelper $db, $token, $data, $files)
     return objResponse("Error: video is required");
   }
 
-  $res = $db->createPitche($data["title"], $data["description"], $videoUrl, $user["id"], "[]", "[]", date("Y-m-d H:i:s"));
+  $res = $db->createPitche($data["title"], $data["description"], $videoUrl, $authUser["id"], date("Y-m-d H:i:s"));
   if ($res) {
     return objResponse($db->readPitche($db->getLastInteredId()));
   } else {

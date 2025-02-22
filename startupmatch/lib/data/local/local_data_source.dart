@@ -4,6 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:startupmatch/data/data_source.dart';
 import 'package:startupmatch/data/data_state.dart';
+import 'package:startupmatch/models/chat/chat_message.dart';
+import 'package:startupmatch/models/chat/chat_model.dart';
+import 'package:startupmatch/models/notification.dart';
 import 'package:startupmatch/models/post/post.dart';
 import 'package:startupmatch/models/user.dart';
 
@@ -28,6 +31,21 @@ class LocalDataSource implements DataSource {
       posts.add(Post.fromJson(element));
     }
     return DataState.success(data: posts);
+  }
+
+  @override
+  Future<void> likePitch({
+    required int postId,
+    required String action,
+  }) async {
+    //not implemented
+  }
+
+  @override
+  Future<void> addView({
+    required int postId,
+  }) async {
+    //not implemented
   }
 
   @override
@@ -121,4 +139,43 @@ class LocalDataSource implements DataSource {
   Future<DataState<List<Post>>> getMyPosts() async {
     return DataState.error(title: "Error", message: "No local data");
   }
+
+  @override
+  Future<DataState<List<ChatModel>>> fetchMyChats() async {
+    return DataState.error(
+      title: "No connection",
+      message: "Please check your internet connection",
+    );
+  }
+
+  @override
+  Future<DataState<List<ChatMessage>>> fetchMessages(
+      int counterpartUserId) async {
+    return DataState.error(
+      title: "No connection",
+      message: "Please check your internet connection",
+    );
+  }
+
+  @override
+  Future<DataState<List<ChatMessage>>> sendMessage(
+      {required int cUserId, required String text, File? attachment}) async {
+    return DataState.error(
+      title: "No connection",
+      message: "Please check your internet connection",
+    );
+  }
+
+  @override
+  Future<List<NotificationModel>> getNotifications() async {
+    return [];
+  }
+  
+  @override
+  Future<DataState<bool>> removePitch(int id) {
+    // TODO: implement removePitch
+    throw UnimplementedError();
+  }
+
+  
 }

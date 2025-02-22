@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:startupmatch/cubit/auth_cubit.dart';
 import 'package:startupmatch/cubit/createpost_cubit.dart';
+import 'package:startupmatch/cubit/my_posts_cubit.dart';
 import 'package:startupmatch/utils/dialogs.dart';
 import 'package:startupmatch/utils/themes.dart';
 import 'package:startupmatch/widgets/buttons/icon_button.dart';
@@ -43,6 +45,7 @@ class _CreatePitchPageState extends State<CreatePitchPage> {
           Fluttertoast.showToast(
             msg: "post_created".tr(),
           );
+          context.read<MyPostsCubit>().getMyPosts();
         }
       },
       child: Scaffold(

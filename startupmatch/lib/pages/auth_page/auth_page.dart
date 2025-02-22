@@ -27,7 +27,7 @@ class _AuthPageState extends State<AuthPage> {
         children: [
           SafeArea(
             child: BlocListener<AuthCubit, AuthState>(
-              listener: (context, state) {
+              listener: (context, state) async {
                 if (state is ErrorAuthState) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     showAlertDialog(
@@ -38,7 +38,7 @@ class _AuthPageState extends State<AuthPage> {
                   });
                 }
                 if (state is AuthorizedState) {
-                  Navigator.of(context).pushReplacement(
+                  await Navigator.of(context).pushReplacement(
                     CupertinoPageRoute(
                       builder: (context) => const SplashPage(),
                     ),

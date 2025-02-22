@@ -20,20 +20,16 @@ class ErrorAuthState extends AuthState {
 
 class AuthorizedState extends AuthState {
   User user;
-  List<Post> myPosts;
 
   AuthorizedState({
     required this.user,
-    this.myPosts = const [],
   });
 
   AuthorizedState copyWith({
     User? user,
-    List<Post>? myPosts,
   }) {
     return AuthorizedState(
       user: user ?? this.user,
-      myPosts: myPosts ?? this.myPosts,
     );
   }
 }

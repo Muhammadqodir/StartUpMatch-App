@@ -21,7 +21,9 @@ class PitchModel extends Post {
     required super.owner,
     required super.likes,
     required super.comments,
+    required super.dislikes,
     required super.date,
+    required super.views,
   });
 
   DateTime getDateTime() {
@@ -50,8 +52,10 @@ class PitchModel extends Post {
       'id': id,
       'owner': owner.toMap(),
       'likes': likes.map((x) => x.toMap()).toList(),
+      'dislikes': dislikes.map((x) => x.toMap()).toList(),
       'comments': comments.map((x) => x.toMap()).toList(),
       'date': date,
+      'views': views,
     };
   }
 
@@ -65,6 +69,14 @@ class PitchModel extends Post {
       owner: User.fromMap(map['owner'] as Map<String, dynamic>),
       likes: List<Like>.from(
         (map['likes'] as List<dynamic>).map<Like>(
+          (x) {
+            print(x["date"]);
+            return Like.fromMap(x as Map<String, dynamic>);
+          },
+        ),
+      ),
+      dislikes: List<Like>.from(
+        (map['dislikes'] as List<dynamic>).map<Like>(
           (x) => Like.fromMap(x as Map<String, dynamic>),
         ),
       ),
@@ -74,6 +86,7 @@ class PitchModel extends Post {
         ),
       ),
       date: map['date'] as String,
+      views: map['views'] as int,
     );
   }
 

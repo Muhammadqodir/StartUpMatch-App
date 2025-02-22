@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:startupmatch/cubit/chat_cubit.dart';
 import 'package:startupmatch/cubit/feed_cubit.dart';
 import 'package:startupmatch/cubit/auth_cubit.dart';
 import 'package:startupmatch/cubit/createpost_cubit.dart';
+import 'package:startupmatch/cubit/message_cubit.dart';
+import 'package:startupmatch/cubit/my_posts_cubit.dart';
 import 'package:startupmatch/cubit/video_player_cubit.dart';
 import 'package:startupmatch/di/di.dart';
 import 'package:startupmatch/pages/spash_page.dart';
@@ -39,6 +42,15 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<AuthCubit>(
           create: (context) => AuthCubit(),
+        ),
+        BlocProvider<MessageCubit>(
+          create: (context) => MessageCubit(),
+        ),
+        BlocProvider<MyPostsCubit>(
+          create: (context) => MyPostsCubit(),
+        ),
+        BlocProvider<ChatCubit>(
+          create: (context) => ChatCubit(),
         ),
         BlocProvider<CreatePostCubit>(
           create: (context) => CreatePostCubit(),

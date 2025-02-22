@@ -8,18 +8,38 @@ import 'package:swipe_cards/swipe_cards.dart';
 part 'feed_state.dart';
 
 class FeedCubit extends Cubit<FeedState> {
-  FeedCubit() : super(FeedState(posts: []));
+  FeedCubit() : super(FeedInitial());
 
   Future<void> fetchFeed() async {
-    emit(state.copyWith(isLoading: true));
-    DataState<List<Post>> posts = await (await getIt.getAsync<DataSource>()).fetchFeed();
+    emit(FeedLoading());
+    DataState<List<Post>> posts =
+        await (await getIt.getAsync<DataSource>()).fetchFeed();
     if (posts.isSuccess) {
-      emit(state.copyWith(posts: posts.data, currentIndex: 0));
+      emit(FeedSuccess(posts: posts.data!, currentIndex: 0));
     }
-    emit(state.copyWith(isLoading: false));
+  }
+
+  void likePitch(int postId) async {
+    await (await getIt.getAsync<DataSource>()).likePitch(
+      postId: postId,
+      action: "like",
+    );
+  }
+
+  void addView(int postId) async {
+    await (await getIt.getAsync<DataSource>()).addView(postId: postId);
+  }
+
+  void dislikePitch(int postId) async {
+    await (await getIt.getAsync<DataSource>()).likePitch(
+      postId: postId,
+      action: "dislike",
+    );
   }
 
   void setCurrentIndex(int index) {
-    emit(state.copyWith(currentIndex: index));
+    if (state is FeedSuccess) {
+      emit((state as FeedSuccess).copyWith(currentIndex: index));
+    }
   }
 }

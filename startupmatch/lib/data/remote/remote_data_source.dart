@@ -6,6 +6,9 @@ import 'package:startupmatch/data/data_source.dart';
 import 'package:startupmatch/data/data_state.dart';
 import 'package:http/http.dart' as http;
 import 'package:startupmatch/data/remote/http_client.dart';
+import 'package:startupmatch/models/chat/chat_message.dart';
+import 'package:startupmatch/models/chat/chat_model.dart';
+import 'package:startupmatch/models/notification.dart';
 import 'package:startupmatch/models/post/pitch.dart';
 import 'package:startupmatch/models/post/post.dart';
 import 'package:startupmatch/models/user.dart';
@@ -33,10 +36,10 @@ class RemoteDataSource implements DataSource {
       http.Response res = await client.get("getFeed");
       if (res.statusCode == 200) {
         List<PitchModel> list = [];
+        print("Feed: " + res.body);
         Map<String, dynamic> data = jsonDecode(res.body);
 
         for (var element in data["data"]) {
-          print(element);
           list.add(PitchModel.fromMap(element));
         }
         return DataState.success(data: list);
@@ -54,6 +57,36 @@ class RemoteDataSource implements DataSource {
         message: s.toString(),
         title: e.toString(),
       );
+    }
+  }
+
+  @override
+  Future<void> addView({
+    required int postId,
+  }) async {
+    try {
+      http.Response res = await client.get("addView?pitchId=$postId");
+      print(res.body);
+    } catch (e, s) {
+      print(e);
+      print(s);
+    }
+  }
+
+  @override
+  Future<void> likePitch({
+    required int postId,
+    required String action,
+  }) async {
+    try {
+      http.Response res = await client.post("addLike", body: {
+        "pitchId": postId.toString(),
+        "action": action,
+      });
+      print(res.body);
+    } catch (e, s) {
+      print(e);
+      print(s);
     }
   }
 
@@ -316,6 +349,154 @@ class RemoteDataSource implements DataSource {
         message: s.toString(),
         title: e.toString(),
       );
+    }
+  }
+
+  @override
+  Future<DataState<List<ChatModel>>> fetchMyChats() async {
+    try {
+      print("getMyChats");
+      http.Response res = await client.get("getMyChats");
+      if (res.statusCode == 200) {
+        List<ChatModel> list = [];
+        Map<String, dynamic> data = jsonDecode(res.body);
+
+        for (var element in data["data"]) {
+          list.add(ChatModel.fromMap(element));
+        }
+        return DataState.success(data: list);
+      } else {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.error(
+          message: data.toString(),
+          title: "Error",
+        );
+      }
+    } catch (e, s) {
+      print(e);
+      print(s);
+      return DataState.error(
+        message: s.toString(),
+        title: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<DataState<List<ChatMessage>>> fetchMessages(
+    int counterpartUserId,
+  ) async {
+    try {
+      http.Response res =
+          await client.get("getMessages?cUserId=$counterpartUserId");
+      if (res.statusCode == 200) {
+        List<ChatMessage> list = [];
+        Map<String, dynamic> data = jsonDecode(res.body);
+
+        for (var element in data["data"]) {
+          list.add(ChatMessage.fromMap(element));
+        }
+        return DataState.success(data: list);
+      } else {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.error(
+          message: data.toString(),
+          title: "Error",
+        );
+      }
+    } catch (e, s) {
+      return DataState.error(
+        message: s.toString(),
+        title: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<DataState<List<ChatMessage>>> sendMessage({
+    required int cUserId,
+    required String text,
+    File? attachment,
+  }) async {
+    try {
+      Map<String, dynamic> postData = {
+        "cUserId": cUserId.toString(),
+        "message": text,
+      };
+      if (attachment != null) {
+        postData["attachment"] = attachment;
+      }
+      http.Response res = await client.multipartPost(
+        "sendMessage",
+        body: postData,
+      );
+
+      if (res.statusCode == 200) {
+        List<ChatMessage> list = [];
+        Map<String, dynamic> data = jsonDecode(res.body);
+        for (var element in data["data"]) {
+          list.add(ChatMessage.fromMap(element));
+        }
+        return DataState.success(data: list);
+      } else {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return DataState.error(
+          message: data["message"],
+          title: "Error",
+        );
+      }
+    } catch (e, s) {
+      if (e is SocketException) {
+        return DataState.error(
+          message: "No connection to the server",
+          title: "Connection error",
+        );
+      }
+      print(e.toString());
+      return DataState.error(
+        message: s.toString(),
+        title: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<List<NotificationModel>> getNotifications() async {
+    try {
+      http.Response res = await client.get("getNotifications");
+      if (res.statusCode == 200) {
+        List<NotificationModel> list = [];
+        print("Notifications: " + res.body);
+        Map<String, dynamic> data = jsonDecode(res.body);
+
+        for (var element in data["data"]) {
+          list.add(NotificationModel.fromMap(element));
+        }
+        return list;
+      } else {
+        Map<String, dynamic> data = jsonDecode(res.body);
+        return [];
+      }
+    } catch (e, s) {
+      print(e);
+      print(s);
+      return [];
+    }
+  }
+
+  @override
+  Future<DataState<bool>> removePitch(int id) async {
+    try {
+      http.Response res = await client.get("removePitch?id=$id");
+      if (res.statusCode == 200) {
+        return DataState.success(data: true);
+      } else {
+        return DataState.error(title: "Error", message: "Invalid pitch id");
+      }
+    } catch (e, s) {
+      print(e);
+      print(s);
+      return DataState.error(title: e.toString(), message: s.toString());
     }
   }
 }

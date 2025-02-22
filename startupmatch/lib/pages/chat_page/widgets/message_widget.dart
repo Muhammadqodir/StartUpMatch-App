@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startupmatch/cubit/auth_cubit.dart';
+import 'package:startupmatch/main.dart';
 import 'package:startupmatch/models/chat/chat_message.dart';
 import 'package:startupmatch/utils/themes.dart';
 
@@ -13,7 +16,8 @@ class MessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isMy = message.isMy();
+    bool isMy = (context.read<AuthCubit>().state as AuthorizedState).user.id ==
+        message.from.id;
     return Row(
       mainAxisAlignment: isMy ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
@@ -43,7 +47,7 @@ class MessageWidget extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: Text(
-                    "test",
+                    message.content,
                     textAlign: isMy ? TextAlign.right : TextAlign.left,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: isMy ? Colors.white : Colors.black54,
@@ -61,7 +65,7 @@ class MessageWidget extends StatelessWidget {
                       ),
                     const SizedBox(width: 4),
                     Text(
-                      "20:20",
+                      message.getShortTime(),
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             color: isMy ? Colors.white : Colors.black54,
                           ),

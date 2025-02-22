@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class OnTapScaleAndFade extends StatefulWidget {
   final Widget child;
   final void Function() onTap;
+  final void Function()? onLongPress;
   final double lowerBound;
   const OnTapScaleAndFade({
     super.key,
     required this.child,
     required this.onTap,
+    this.onLongPress,
     this.lowerBound = 0.85,
   });
 
@@ -45,6 +47,11 @@ class _OnTapScaleAndFadeState extends State<OnTapScaleAndFade>
       onTap: () {
         _controllerA.reverse();
         widget.onTap();
+      },
+      onLongPress: () {
+        if (widget.onLongPress != null) {
+          widget.onLongPress!();
+        }
       },
       onTapDown: (dp) {
         _controllerA.reverse();

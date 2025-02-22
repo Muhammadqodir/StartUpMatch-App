@@ -1,25 +1,41 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'feed_cubit.dart';
 
-class FeedState {
+abstract class FeedState {}
+
+class FeedLoading extends FeedState {}
+
+class FeedInitial extends FeedState {}
+
+class FeedError extends FeedState {
+  final String title;
+  final String message;
+  FeedError({
+    required this.title,
+    required this.message,
+  });
+}
+
+class FeedSuccess extends FeedState {
   List<Post> posts;
-  bool isLoading;
-  FeedState({
+  int currentIndex = 0;
+  FeedSuccess({
     required this.posts,
-    this.isLoading = true,
+    required this.currentIndex,
   });
 
-  List<SwipeItem> getSwipeItems() {
+  List<SwipeItem> getSwipeItems(
+      {required Function(int) onLike, required Function(int) onNope}) {
     List<SwipeItem> items = [];
     for (var element in posts) {
       items.add(
         SwipeItem(
           content: element,
           likeAction: () {
-            print("like");
+            onLike(element.id);
           },
           nopeAction: () {
-            print("nope");
+            onNope(element.id);
           },
         ),
       );
@@ -31,14 +47,13 @@ class FeedState {
     return posts.indexOf(post);
   }
 
-  FeedState copyWith({
+  FeedSuccess copyWith({
     List<Post>? posts,
-    bool? isLoading,
     int? currentIndex,
   }) {
-    return FeedState(
+    return FeedSuccess(
       posts: posts ?? this.posts,
-      isLoading: isLoading ?? this.isLoading,
+      currentIndex: currentIndex ?? this.currentIndex,
     );
   }
 }

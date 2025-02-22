@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:startupmatch/models/post/pitch.dart';
-import 'package:startupmatch/widgets/buttons/icon_button.dart';
+import 'package:startupmatch/utils/dialogs.dart';
 import 'package:startupmatch/widgets/buttons/tap_scale.dart';
 import 'package:startupmatch/widgets/card.dart';
 import 'package:startupmatch/widgets/post_widget/inc.dart';
+import 'package:startupmatch/widgets/post_widget/fullscrean_video_player.dart';
 
 class PitchCard extends StatefulWidget {
   const PitchCard({
@@ -23,7 +24,19 @@ class _PitchCardState extends State<PitchCard> {
   Widget build(BuildContext context) {
     return OnTapScaleAndFade(
       lowerBound: 0.97,
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          CupertinoPageRoute(
+            builder: (context) => FullScreanVideoPlayer(
+              videoUrl: widget.pitch.getVideoUrl(),
+              title: widget.pitch.title,
+            ),
+          ),
+        );
+      },
+      onLongPress: () {
+        showBottomContextDialog(context, widget.pitch);
+      },
       child: MyCard(
         margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
         padding: const EdgeInsets.all(12),
@@ -33,9 +46,13 @@ class _PitchCardState extends State<PitchCard> {
             UserTitle(
               user: widget.pitch.owner,
               isList: true,
-              showFollow: false,
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 12),
+            Text(
+              widget.pitch.description,
+              textAlign: TextAlign.start,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Stack(
@@ -78,25 +95,39 @@ class _PitchCardState extends State<PitchCard> {
                 ],
               ),
             ),
-            const SizedBox(width: 12),
-            Text(
-              widget.pitch.description,
-              textAlign: TextAlign.start,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            const SizedBox(width: 12),
+            const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                MyIconButton(
-                  width: 24,
-                  height: 24,
-                  onTap: () {},
-                  child: Icon(CupertinoIcons.heart),
+                const SizedBox(width: 2),
+                const Icon(
+                  CupertinoIcons.eye,
+                  size: 16,
                 ),
+                const SizedBox(width: 3),
                 Text(
-                  "12",
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  widget.pitch.views.toString(),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(width: 12),
+                const Icon(
+                  CupertinoIcons.hand_thumbsup,
+                  size: 16,
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  widget.pitch.likes.length.toString(),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(width: 12),
+                const Icon(
+                  CupertinoIcons.hand_thumbsdown,
+                  size: 16,
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  widget.pitch.dislikes.length.toString(),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const Expanded(child: SizedBox()),
                 Opacity(

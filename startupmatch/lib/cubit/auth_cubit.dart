@@ -79,16 +79,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> getMyPosts() async {
-    if (state is AuthorizedState) {
-      DataSource dataSource = await getIt.getAsync<DataSource>();
-      DataState<List<Post>> myPosts = await dataSource.getMyPosts();
-      if (myPosts.isSuccess) {
-        emit((state as AuthorizedState).copyWith(myPosts: myPosts.data!));
-      }
-    }
-  }
-
   Future<void> getMe() async {
     if (state is AuthorizedState) {
       DataSource dataSource = await getIt.getAsync<DataSource>();

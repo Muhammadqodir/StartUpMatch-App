@@ -10,15 +10,19 @@ class Post {
   int id;
   User owner;
   List<Like> likes;
+  List<Like> dislikes;
   List<Comment> comments;
   String date;
+  int views;
 
   Post({
     required this.id,
     required this.owner,
     required this.likes,
+    required this.dislikes,
     required this.comments,
     required this.date,
+    required this.views,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,8 +30,10 @@ class Post {
       'id': id,
       'owner': owner.toMap(),
       'likes': likes.map((x) => x.toMap()).toList(),
+      'dislikes': dislikes.map((x) => x.toMap()).toList(),
       'comments': comments.map((x) => x.toMap()).toList(),
       'date': date,
+      'views': views,
     };
   }
 
@@ -43,12 +49,18 @@ class Post {
           (x) => Like.fromMap(x as Map<String, dynamic>),
         ),
       ),
+      dislikes: List<Like>.from(
+        (map['dislikes'] as List<dynamic>).map<Like>(
+          (x) => Like.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
       comments: List<Comment>.from(
         (map['comments'] as List<dynamic>).map<Comment>(
           (x) => Comment.fromMap(x as Map<String, dynamic>),
         ),
       ),
       date: map['date'] as String,
+      views: map['views'] as int,
     );
   }
 

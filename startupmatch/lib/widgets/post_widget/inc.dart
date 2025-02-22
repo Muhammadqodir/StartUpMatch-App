@@ -1,6 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startupmatch/cubit/auth_cubit.dart';
+import 'package:startupmatch/main.dart';
+import 'package:startupmatch/models/chat/chat_model.dart';
 import 'package:startupmatch/models/user.dart';
+import 'package:startupmatch/pages/chat_page/chat_page.dart';
 import 'package:startupmatch/widgets/buttons/flat_button.dart';
 
 class UserTitle extends StatelessWidget {
@@ -17,6 +23,7 @@ class UserTitle extends StatelessWidget {
   final EdgeInsets margin;
   @override
   Widget build(BuildContext context) {
+    User me = (context.read<AuthCubit>().state as AuthorizedState).user;
     return Padding(
       padding: margin,
       child: Row(
@@ -25,6 +32,12 @@ class UserTitle extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
             child: Image.network(
               user.getUserPicUrl(),
+              errorBuilder: (context, error, stackTrace) => Image.asset(
+                "assets/ic_launcher.png",
+                fit: BoxFit.cover,
+                width: 40,
+                height: 40,
+              ),
               fit: BoxFit.cover,
               width: 40,
               height: 40,
@@ -74,14 +87,26 @@ class UserTitle extends StatelessWidget {
               ],
             ),
           ),
-          if (showFollow)
+          if (me.id != user.id && showFollow)
             SizedBox(
-              width: 100,
+              width: 120,
               height: 60,
               child: FlatButton(
                 padding: const EdgeInsets.all(0),
                 title: "message".tr(),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => ChatPage(
+                      model: ChatModel(
+                        user: user,
+                        user1:
+                            (context.read<AuthCubit>().state as AuthorizedState)
+                                .user,
+                        lastMessages: [],
+                      ),
+                    ),
+                  ));
+                },
               ),
             ),
         ],

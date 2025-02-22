@@ -20,14 +20,14 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<TestDataSource>(() => TestDataSource());
 
   getIt.registerFactoryAsync<DataSource>(() async {
-    final internetConnection = getIt<InternetConnection>();
-    if (isTestMode) {
-      return getIt<TestDataSource>();
-    }
-    if (await internetConnection.hasInternetAccess) {
+    // final internetConnection = getIt<InternetConnection>();
+    // if (isTestMode) {
+    //   return getIt<TestDataSource>();
+    // }
+    // if (await internetConnection.hasInternetAccess) {
       return await getIt.getAsync<RemoteDataSource>();
-    } else {
-      return getIt<LocalDataSource>();
-    }
+    // } else {
+    //   return getIt<LocalDataSource>();
+    // }
   });
 }

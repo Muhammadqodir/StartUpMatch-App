@@ -1,9 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:startupmatch/cubit/auth_cubit.dart';
+import 'package:startupmatch/cubit/my_posts_cubit.dart';
 import 'package:startupmatch/models/post/pitch.dart';
 import 'package:startupmatch/models/post/post.dart';
+import 'package:startupmatch/pages/camera_page/camera_page.dart';
+import 'package:startupmatch/widgets/buttons/gradient_button.dart';
 import 'package:startupmatch/widgets/empty.dart';
+import 'package:startupmatch/widgets/loading.dart';
 import 'package:startupmatch/widgets/post_widget/pitch_card.dart';
 
 class MyPostsWidget extends StatelessWidget {
@@ -11,8 +15,8 @@ class MyPostsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthState state = context.watch<AuthCubit>().state;
-    if (state is AuthorizedState) {
+    MyPostsState state = context.watch<MyPostsCubit>().state;
+    if (state is SuccessMyPostsState) {
       List<Post> posts = state.myPosts;
       return posts.isNotEmpty
           ? Column(
@@ -31,11 +35,35 @@ class MyPostsWidget extends StatelessWidget {
                 const SizedBox(height: 12),
               ],
             )
-          : const EmptyWidget(
-              title: "List is empty!",
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 12,
+                  width: double.infinity,
+                ),
+                EmptyWidget(
+                  title: "list_is_empty".tr(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: GradientButton(
+                    text: "add_pitch".tr(),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        CupertinoPageRoute(
+                          builder: (context) => const CameraPage(),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              ],
             );
-    }else{
-      return const SizedBox();
+    } else {
+      return LoadingWidget(
+        title: "loading".tr(),
+      );
     }
   }
 }
